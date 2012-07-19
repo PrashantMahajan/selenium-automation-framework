@@ -1,0 +1,16 @@
+<project name="SeleniumServer" default="StartServer" basedir=".">
+
+
+	<target name="StartServer">
+		<java jar="./lib/selenium-server-standalone-2.24.1.jar" fork="true" spawn="true" />
+	</target>
+
+	<target name="stop-server">
+		<get
+			taskname="selenium-shutdown"
+			src="http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer"
+			dest="result.txt"
+			ignoreerrors="true" />
+		<echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
+	</target>
+</project>
