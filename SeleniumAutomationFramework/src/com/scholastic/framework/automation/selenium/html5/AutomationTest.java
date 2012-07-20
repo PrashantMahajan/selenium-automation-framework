@@ -268,6 +268,22 @@ abstract public class AutomationTest extends TestCase {
 	public void command_submitFrom (String prm_sFormId) {
 		this.command_getControl(prm_sFormId).submit();
 	}
+	public String command_uniqueText (int prm_iLength) {
+		String v_Return = "";
+		if (prm_iLength == 0) {
+			return v_Return;
+		} else {
+			v_Return = UUID.randomUUID().toString().replace("-", "").replaceAll("[0-9]", "");
+			while (v_Return.length() != prm_iLength) {
+				if (v_Return.length() > prm_iLength) {
+					v_Return = v_Return.substring(0, prm_iLength);
+				} else {
+					v_Return += UUID.randomUUID().toString().replace("-", "").replaceAll("[0-9]", "");
+				}
+			}
+		}
+		return v_Return;
+	}
 
 	public void command_waitForHalfASecond () {
 		try {
