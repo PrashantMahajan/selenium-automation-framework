@@ -34,13 +34,7 @@ abstract public class AutomationTest extends TestCase {
 	private Controller g_objController;
 
 	public void command_cancel () {
-		JavascriptExecutor v_objJS;
-		try {
-			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
-			v_objJS.executeScript("$(\"button:contains('Cancel')\").click()");
-		} catch (Exception v_exException) {
-			this.handleException(v_exException);
-		}
+		this.executeJavaScript("$(\"button:contains('Cancel')\").click()");
 	}
 
 	public void command_clickButton (String prm_sButtonID) {
@@ -64,13 +58,7 @@ abstract public class AutomationTest extends TestCase {
 	}
 	
 	public void command_delete () {
-		JavascriptExecutor v_objJS;
-		try {
-			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
-			v_objJS.executeScript("$(\"button:contains('Delete')\").click()");
-		} catch (Exception v_exException) {
-			this.handleException(v_exException);
-		}
+		this.executeJavaScript("$(\"button:contains('Delete')\").click()");
 	}
 	
 	public void command_enterMemo (String prm_sMemoId, String prm_sText) {
@@ -85,6 +73,22 @@ abstract public class AutomationTest extends TestCase {
 		this.command_getControl(prm_sTextBoxId).sendKeys(prm_sTextToEnter);
 	}
 	
+	public void command_excel_fillForm (String prm_sFileName, String prm_sSheetName) {
+		_AutomationTestFillFormViaExcelsheet v_fn = null;
+		try {
+			v_fn = new _AutomationTestFillFormViaExcelsheet();
+			v_fn.setFileName(prm_sFileName);
+			v_fn.setSheetName(prm_sSheetName);
+			v_fn.startFunction();
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+	}
+
+	public String command_excel_getValue (String prm_sFileName, String prm_sSheetName, String prm_sFieldName) {
+		return "";
+	}
+
 	public WebElement command_getControl (String prm_sId) {
 		WebElement v_Return = null;
 		try {
@@ -108,12 +112,30 @@ abstract public class AutomationTest extends TestCase {
 				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.className(prm_sId)));
 			} catch (Exception v_exException) {
 			}
+			
+			try {
+				v_Return = (null != v_Return ? v_Return : (WebElement) this.executeJavaScript("" +
+						"\n	var v_Return;" +
+						"\n	var v_sId;" +
+						"\n alert(arguments[0]);" +
+						"\n	v_sId = $(\"label:contains(\" + arguments[0] + \")\").attr('for');" +
+						"\n	v_Return = $('#' + v_sId);" +
+						"\n	if (null == v_Return) {" +
+						"\n		v_Return = $(\"label:contains(\" + arguments[0] + \")\").parent().children()[1];" +
+						"\n	}" +
+						"\n	return v_Return;",
+						"'" + prm_sId + "'"
+					)
+				);
+			} catch (Exception v_exException) {
+			}
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 			System.err.println("The control with the Id:" + prm_sId + " not found!!!");
 		}
 		return v_Return;
 	}
+	
 	public void command_login (String prm_sUsername, String prm_sPassword) {
 		this.command_openURL("http://integration15.education.scholastic.com/dashboard");
 		this.command_enterText("username", prm_sUsername);
@@ -134,6 +156,7 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
+
 	public WebDriver command_openURL (String prm_sSite) {
 		try {
 			if (null == AutomationTest.g_objWebDriver) {
@@ -146,6 +169,7 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return AutomationTest.g_objWebDriver;
 	}
+
 	public String command_randomText (int prm_iLength) {
 		String v_Return = "";
 		if (prm_iLength == 0) {
@@ -162,14 +186,9 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return v_Return;
 	}
+
 	public void command_save () {
-		JavascriptExecutor v_objJS;
-		try {
-			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
-			v_objJS.executeScript("$(\"button:contains('Save')\").click()");
-		} catch (Exception v_exException) {
-			this.handleException(v_exException);
-		}
+		this.executeJavaScript("$(\"button:contains('Save')\").click()");
 	}
 
 	public void command_selectComboBox (String prm_ComboBoxId, String prm_sOptionId) {
@@ -209,6 +228,7 @@ abstract public class AutomationTest extends TestCase {
 	public void command_selectTab (String prm_sTabName) {
 		this.command_clickLink(prm_sTabName);
 	}
+
 	public void command_setBrowser (Browsers prm_iBrowser) {
 		try {
 			if (null != AutomationTest.g_objWebDriver) {
@@ -228,6 +248,7 @@ abstract public class AutomationTest extends TestCase {
 				break;
 			case SAFARI:
 				AutomationTest.g_objWebDriver = new SafariDriver();
+				break;
 			case IPHONE:
 				try {
 					AutomationTest.g_objWebDriver = new IPhoneDriver();
@@ -243,9 +264,11 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
+
 	public void command_submitFrom (String prm_sFormId) {
 		this.command_getControl(prm_sFormId).submit();
 	}
+
 	public void command_waitForHalfASecond () {
 		try {
 			Thread.sleep(500);
@@ -272,9 +295,24 @@ abstract public class AutomationTest extends TestCase {
 	public void handleException (Exception prm_exException) {
 		ExceptionController.getInstance().handleException(prm_exException);
 	}
-	
+
 	public void setContoller (Controller prm_objController) {
 		this.g_objController = prm_objController;
 	}
+	public Object executeJavaScript (String prm_sCommand) {
+		return this.executeJavaScript(prm_sCommand);
+	}
+	public Object executeJavaScript (String prm_sCommand, Object ... prm_arrArgs) {
+		Object v_Return = null;
+		JavascriptExecutor v_objJS;
+		try {
+			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
+			v_Return = v_objJS.executeScript(prm_sCommand, prm_arrArgs);
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+		return v_Return;
+	}
+
 	abstract public void testStart();
 }

@@ -24,7 +24,7 @@ public class DashboardTestAddStudent extends AutomationTest {
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Student");
 		this.command_enterText("sis_id", this.command_randomText(10));
-		this.command_enterText("first_name", "zTestFirstName");
+		this.command_enterText("First Name", "zTestFirstName");
 		this.command_enterText("middle_name", "zTestMiddleName");
 		this.command_enterText("last_name", "zTestLastName");
 		this.command_selectComboBox("grade", "Fifth grade");
@@ -44,6 +44,8 @@ public class DashboardTestAddStudent extends AutomationTest {
 
 		this.command_selectRadioButton("gender", "gender_female");
 		this.command_selectRadioButton("ethnicity", "ethnic_am_ind_ak");
+		
+		//this.command_excel_fillForm(prm_sFileName, prm_sSheetName);
 		this.command_save();
 	}
 
