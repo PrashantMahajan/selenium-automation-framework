@@ -1,29 +1,50 @@
-package com.scholastic.framework.automation.selenium.html5.dashboard;
+ package com.scholastic.framework.automation.selenium.html5.dashboard;
 
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 
 public class DashboardTestAddClass extends AutomationTest {
 
+	
 	@Override
 	public void testStart() {
-		/*
-		 * Go to Gateway
-		 * Click "Add a Class" link
-		 * Enter data in mandatory fields
-		 * class name
-		 * select a grade and Application
-		 * Go to Student Roster tab and select students that you want to put in this class.
-		 * Click SAVE
-		 * 
-		 */
-		this.command_login("teacher03", "Welcome1");
+		try {
+		
+			
+			this.command_setBrowser(Browsers.IE8);
+			this.command_login("teacher03", "");
+			this.makeClass();
+			this.command_logout();
+			
+			
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+	}
+
+	private void makeClass() {
+		
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Class");
-		this.command_enterText("display_name", this.command_randomText(10));
-		this.command_clickCheckbox("grade0");
+		this.command_cancel();
+		this.command_clickLink("Gateway");
+		this.command_clickLink("Add a Class");
+		this.command_enterText("display_name",this.command_uniqueText(10));
+		this.command_clickCheckbox("grade");
+		this.command_clickCheckbox("grade1");
+		this.command_clickCheckbox("grade2");
 		this.command_clickCheckbox("application[0]");
+		//go to student roster tab
 		this.command_selectTab("Student Roster");
-		this.command_clickCheckbox("2j24c95s8eits58gl3o5unbi_h910h03");
+		//select the students that you want to include in the class
+		this.command_clickCheckbox("e3l7u7afjqahrne3egaqal3b-h910h03");
+		this.command_clickCheckbox("n17petl3qga082ept57ol5i9-h910h03");
+		this.command_clickCheckbox("rathg62rcmq005nncfoblijn-h910h03");
+		this.command_clickCheckbox("0a284osg3uqgcuivuajru5c3-h910h03");
+		this.command_save();
+	
+		
+	
+	
 	}
 
 }
