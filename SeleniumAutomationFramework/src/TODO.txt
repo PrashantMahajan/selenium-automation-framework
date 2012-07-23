@@ -1,8 +1,10 @@
 Prashant:
-1. Excel Integration.
-2. QC Research.
+1. Excel Integration : Done
+2. QC Research :
 3. Cancel Button - something.
 4. Auto-EMailing
+5. Further Simplify the api by introducing command_controlSetValue and command_controlGetValue
+6. Make the URL to set from Properties file ad not a hard-coded value - Done.
 
 Karam:
 1. Test Case for Running a report

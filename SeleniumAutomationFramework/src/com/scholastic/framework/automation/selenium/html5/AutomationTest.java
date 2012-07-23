@@ -1,6 +1,7 @@
 package com.scholastic.framework.automation.selenium.html5;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import junit.framework.TestCase;
@@ -26,12 +27,27 @@ abstract public class AutomationTest extends TestCase {
 
 	//This framework, right now runs a single instance of the Web-Browser
 	private static WebDriver g_objWebDriver;
-
 	public static WebDriver getDriver () {
 		return AutomationTest.g_objWebDriver;
 	}
 
+	private String g_sURL = "http://integration15.education.scholastic.com/dashboard";
+
 	private Controller g_objController;
+
+	public AutomationTest () {
+		Properties v_objProperties;
+		try {
+			v_objProperties = new Properties();
+			v_objProperties.load(ClassLoader.getSystemResourceAsStream("TestCases.properties"));
+			this.g_sURL = (String) v_objProperties.get("url");
+			if (null == this.g_sURL || "".equals(this.g_sURL)) {
+				System.out.println("You may wish to set the URL in the TestCases.properties file.");
+			}
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+	}
 
 	public void command_cancel () {
 		this.executeJavaScript("$(\"button:contains('Cancel')\").click()");
@@ -57,19 +73,89 @@ abstract public class AutomationTest extends TestCase {
 		this.command_cancel();
 	}
 	
+	public String command_controlGetValue (String prm_sControlId) {
+		String v_Return = null;
+		return v_Return;
+	}
+	
+	public void command_controlSetValue (String prm_sControlId, String prm_sControlValue) {
+		String v_sTagName;
+		String v_sType;
+		WebElement v_objControl;
+		v_objControl = this.command_getControl(prm_sControlId);
+		if (null != v_objControl) {
+			v_sTagName = v_objControl.getTagName().toLowerCase();
+			switch (v_sTagName.charAt(0)) {
+			case 'i': //Input
+				if (v_sTagName.equals("input")) {
+					v_sType = v_objControl.getAttribute("type").toLowerCase();
+					switch (v_sType.charAt(0)) {
+					case 'b'://Button
+						break;
+					case 'c'://Checkbox
+						if (prm_sControlValue.charAt(0) == 'y' || prm_sControlValue.charAt(0) == 'Y' || prm_sControlValue.charAt(0) == 'T' || prm_sControlValue.charAt(0) == 't') {
+							v_objControl.clear();
+							v_objControl.click();
+						}
+						break;
+					case 'f'://File
+						break;
+					case 'h'://Hidden
+						v_objControl.clear();
+						v_objControl.sendKeys(prm_sControlValue);
+						break;
+					case 'i'://Image
+						break;
+					case 'p'://Password
+						v_objControl.clear();
+						v_objControl.sendKeys(prm_sControlValue);
+						break;
+					case 'r'://radio/reset
+						if (prm_sControlValue.charAt(0) == 'y' || prm_sControlValue.charAt(0) == 'Y' || prm_sControlValue.charAt(0) == 'T' || prm_sControlValue.charAt(0) == 't') {
+							v_objControl.clear();
+							v_objControl.click();
+						}
+						break;
+					case 's'://Submit
+						break;
+					case 't'://Text
+					default:
+						this.command_enterText(prm_sControlId, prm_sControlValue);
+						break;
+					}
+				}
+				break;
+			case 's': //select
+				if (v_sTagName.equals("select")) {
+					this.command_selectComboBox(prm_sControlId, prm_sControlValue);
+				}
+				break;
+			case 'b': //Button
+				if (v_sTagName.equals("button")) {
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
 	public void command_delete () {
 		this.executeJavaScript("$(\"button:contains('Delete')\").click()");
 	}
 	
 	public void command_enterMemo (String prm_sMemoId, String prm_sText) {
+		this.command_getControl(prm_sMemoId).clear();
 		this.command_getControl(prm_sMemoId).sendKeys(prm_sText);
 	}
-	
+
 	public void command_enterPassword (String prm_sPasswordBoxId, String prm_sPassword) {
+		this.command_getControl(prm_sPasswordBoxId).clear();
 		this.command_getControl(prm_sPasswordBoxId).sendKeys(prm_sPassword);
 	}
-	
+
 	public void command_enterText (String prm_sTextBoxId, String prm_sTextToEnter) {
+		this.command_getControl(prm_sTextBoxId).clear();
 		this.command_getControl(prm_sTextBoxId).sendKeys(prm_sTextToEnter);
 	}
 	
@@ -79,6 +165,7 @@ abstract public class AutomationTest extends TestCase {
 			v_fn = new _AutomationTestFillFormViaExcelsheet();
 			v_fn.setFileName(prm_sFileName);
 			v_fn.setSheetName(prm_sSheetName);
+			v_fn.setParent(this);
 			v_fn.startFunction();
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
@@ -104,29 +191,37 @@ abstract public class AutomationTest extends TestCase {
 				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.linkText(prm_sId)));
 			} catch (Exception v_exException) {
 			}
+			
+			try {
+				v_Return = (null != v_Return ? v_Return : (WebElement) this.executeJavaScript("" +
+						"\n		var v_Return;" +
+						"\n		var v_sId;" +
+						"\n		v_sId = $(\"label:contains('" + prm_sId + "')\").attr('for');" +
+						"\n		v_Return = $('#' + v_sId);" +
+						"\n		if (null == v_Return) {" +
+						"\n			v_Return = $(\"label:contains('" + prm_sId + "')\").parent().children()[1];" +
+						"\n		}" +
+						"\n		if (null != v_Return && v_Return.length > 0) {" +
+						"\n			v_Return = v_Return[0];" +
+						"\n		} else if (null == v_Return || 0 == v_Return.length) {" +
+						"\n			v_Return = $($(\"div:contains('" + prm_sId + "')\").last()).children().last();" +
+						"\n			if (null != v_Return && v_Return.length > 0) {" +
+						"\n				v_Return = v_Return[0];" +
+						"\n			} else if (null == v_Return || 0 == v_Return.length) {" +
+						"\n				v_Return = null;" +
+						"\n			}" +
+						"\n		}" +
+						"\n		return v_Return;"
+					)
+				);
+			} catch (Exception v_exException) {
+			}
 			try {
 				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.partialLinkText(prm_sId)));
 			} catch (Exception v_exException) {
 			}
 			try {
 				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.className(prm_sId)));
-			} catch (Exception v_exException) {
-			}
-			
-			try {
-				v_Return = (null != v_Return ? v_Return : (WebElement) this.executeJavaScript("" +
-						"\n	var v_Return;" +
-						"\n	var v_sId;" +
-						"\n alert(arguments[0]);" +
-						"\n	v_sId = $(\"label:contains(\" + arguments[0] + \")\").attr('for');" +
-						"\n	v_Return = $('#' + v_sId);" +
-						"\n	if (null == v_Return) {" +
-						"\n		v_Return = $(\"label:contains(\" + arguments[0] + \")\").parent().children()[1];" +
-						"\n	}" +
-						"\n	return v_Return;",
-						"'" + prm_sId + "'"
-					)
-				);
 			} catch (Exception v_exException) {
 			}
 		} catch (Exception v_exException) {
@@ -136,14 +231,18 @@ abstract public class AutomationTest extends TestCase {
 		return v_Return;
 	}
 	
+	public String command_getURL () {
+		return this.g_sURL;
+	}
+	
 	public void command_login (String prm_sUsername, String prm_sPassword) {
-		this.command_openURL("http://integration15.education.scholastic.com/dashboard");
+		this.command_openURL(this.g_sURL);
 		this.command_enterText("username", prm_sUsername);
 		this.command_enterPassword("password", prm_sPassword);
 		this.command_submitFrom("login");
 		this.command_waitInSeconds(2);
 	}
-	
+
 	public void command_logout () {
 		this.command_clickLink("Log Out");
 		this.command_waitInSeconds(2);
@@ -228,7 +327,6 @@ abstract public class AutomationTest extends TestCase {
 	public void command_selectTab (String prm_sTabName) {
 		this.command_clickLink(prm_sTabName);
 	}
-
 	public void command_setBrowser (Browsers prm_iBrowser) {
 		try {
 			if (null != AutomationTest.g_objWebDriver) {
@@ -263,6 +361,9 @@ abstract public class AutomationTest extends TestCase {
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
+	}
+	public void command_setURL (String prm_sURL) {
+		this.g_sURL = prm_sURL;
 	}
 
 	public void command_submitFrom (String prm_sFormId) {
@@ -301,6 +402,18 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
+	public Object executeJavaScript (String prm_sCommand) {
+		Object v_Return = null;
+		JavascriptExecutor v_objJS;
+		try {
+			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
+			v_Return = v_objJS.executeScript(prm_sCommand);
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+		return v_Return;
+	}
+
 	public Controller getController () {
 		if (null == this.g_objController) {
 			this.g_objController = AutomationController.getInstance();
@@ -311,23 +424,8 @@ abstract public class AutomationTest extends TestCase {
 	public void handleException (Exception prm_exException) {
 		ExceptionController.getInstance().handleException(prm_exException);
 	}
-
 	public void setContoller (Controller prm_objController) {
 		this.g_objController = prm_objController;
-	}
-	public Object executeJavaScript (String prm_sCommand) {
-		return this.executeJavaScript(prm_sCommand);
-	}
-	public Object executeJavaScript (String prm_sCommand, Object ... prm_arrArgs) {
-		Object v_Return = null;
-		JavascriptExecutor v_objJS;
-		try {
-			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
-			v_Return = v_objJS.executeScript(prm_sCommand, prm_arrArgs);
-		} catch (Exception v_exException) {
-			this.handleException(v_exException);
-		}
-		return v_Return;
 	}
 
 	abstract public void testStart();

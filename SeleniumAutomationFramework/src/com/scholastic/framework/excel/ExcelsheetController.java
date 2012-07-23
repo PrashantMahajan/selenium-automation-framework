@@ -1,6 +1,7 @@
 package com.scholastic.framework.excel;
 
-import jxl.Sheet;
+
+import org.apache.poi.ss.usermodel.Sheet;
 
 import com.scholastic.framework.Controller;
 import com.scholastic.framework.exceptionhandling.ExceptionController;

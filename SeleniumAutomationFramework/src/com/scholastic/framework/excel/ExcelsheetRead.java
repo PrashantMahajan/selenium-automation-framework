@@ -1,7 +1,10 @@
 package com.scholastic.framework.excel;
 
-import jxl.Sheet;
-import jxl.Workbook;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
@@ -18,7 +21,7 @@ public class ExcelsheetRead extends ExcelFunc {
 	public void setFileName(String prm_sFileName) {
 		this.g_sFileName = prm_sFileName;
 	}
-	
+
 	public void setSheet(String prm_sSheet) {
 		this.g_sSheetName = prm_sSheet;
 	}
@@ -27,7 +30,11 @@ public class ExcelsheetRead extends ExcelFunc {
 	public void startFunction() {
 		Workbook v_objWorkbook;
 		try {
-			v_objWorkbook = Workbook.getWorkbook(ClassLoader.getSystemResourceAsStream(this.g_sFileName));
+			try {
+				v_objWorkbook = new XSSFWorkbook(ClassLoader.getSystemResourceAsStream(this.g_sFileName));
+			} catch (Exception v_exException) {
+				v_objWorkbook = new HSSFWorkbook(ClassLoader.getSystemResourceAsStream(this.g_sFileName));
+			}
 			this.g_Return = v_objWorkbook.getSheet(g_sSheetName);
 		} catch (Exception v_exException) {
 			ExceptionController.getInstance().handleException(v_exException);

@@ -23,29 +23,24 @@ public class DashboardTestAddStudent extends AutomationTest {
 	private void makeStudent() {
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Student");
-		this.command_enterText("sis_id", this.command_randomText(10));
-		this.command_enterText("First Name", "zTestFirstName");
-		this.command_enterText("middle_name", "zTestMiddleName");
-		this.command_enterText("last_name", "zTestLastName");
-		this.command_selectComboBox("grade", "Fifth grade");
-		this.command_enterText("suffix", "zTestLastName");
-		this.command_enterText("preferred_name", "prefname");
-		this.g_sPassword = this.command_randomText(9);
+
+		this.command_excel_fillForm("TestCaseData.xlsx", "Student");//Fills the form from Excel sheet.
+
+		this.command_controlSetValue("Student ID", this.command_randomText(10));
+		this.g_sPassword = "p" + this.command_randomText(9) + "2";
 		this.g_sUsername = "a1" + this.command_randomText(9);
-		this.command_enterText("user_name", this.g_sUsername);
-		this.command_enterText("password", this.g_sPassword);
-		this.command_enterText("password_confirmation", this.g_sPassword);
-
+		this.command_controlSetValue("Username*", this.g_sUsername);
+		this.command_controlSetValue("Password", this.g_sPassword);
+		this.command_controlSetValue("Password Confirmation", this.g_sPassword);
+		this.command_clickCheckbox("FASTT Math test");
 		this.command_selectTab("Demographics");
+		this.command_clickCheckbox("Economically Disadvantaged");
+		this.command_clickCheckbox("Gifted and Talented");
+		this.command_clickCheckbox("Migrant");
 
-		this.command_clickCheckbox("ayp_econ_disadvantaged");
-		this.command_clickCheckbox("ayp_gifted_talented");
-		this.command_clickCheckbox("ayp_migrant");
+		this.command_selectRadioButton("gender", "Male");
+		this.command_selectRadioButton("ethnicity", "American Indian/Alaskan Native");
 
-		this.command_selectRadioButton("gender", "gender_female");
-		this.command_selectRadioButton("ethnicity", "ethnic_am_ind_ak");
-		
-		//this.command_excel_fillForm(prm_sFileName, prm_sSheetName);
 		this.command_save();
 	}
 
