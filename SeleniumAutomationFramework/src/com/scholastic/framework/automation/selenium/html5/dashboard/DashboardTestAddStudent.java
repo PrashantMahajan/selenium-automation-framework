@@ -12,9 +12,6 @@ public class DashboardTestAddStudent extends AutomationTest {
 			this.command_login("teacher03", "Welcome1");
 			this.makeStudent();
 			this.command_logout();
-			this.command_login("teacher03", "Welcome1");
-			this.testStudent();
-			this.command_logout();
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
@@ -44,7 +41,4 @@ public class DashboardTestAddStudent extends AutomationTest {
 		this.command_save();
 	}
 
-	private void testStudent() {
-		
-	}
 }

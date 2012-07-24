@@ -10,8 +10,8 @@ public class DashboardTestAddClass extends AutomationTest {
 		try {
 		
 			
-			this.command_setBrowser(Browsers.IE8);
-			this.command_login("teacher03", "");
+			//this.command_setBrowser(Browsers.IE8);
+			this.command_login("teacher03", "Welcome1");
 			this.makeClass();
 			this.command_logout();
 			

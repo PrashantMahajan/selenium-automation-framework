@@ -43,5 +43,11 @@ public class DashboardSmokeTestCase extends Controller {
 		v_tst.testStart();
 		v_tst.command_waitForHalfASecond();
 	}
+	public void testSearchStudent () {
+		DashboardTestSearchStudent v_tst;
+		v_tst = new DashboardTestSearchStudent();
+		v_tst.testStart();
+		v_tst.command_waitForHalfASecond();
+	}
 
 }
