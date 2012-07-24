@@ -6,14 +6,10 @@ public class DashboardTestSearchStudent extends AutomationTest {
 //class to test the search a student link
 	@Override
 	public void testStart() {
-try {
-		
-			
+		try {
 			this.command_login("teacher03", "Welcome1");
 			this.searchStudentLink();
 			this.command_logout();
-			
-			
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
@@ -25,6 +21,6 @@ try {
 		this.command_clickLink("Search Student");
 		this.command_close();
 	}
-	}
+}
 
 
