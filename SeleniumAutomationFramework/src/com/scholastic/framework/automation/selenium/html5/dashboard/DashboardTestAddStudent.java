@@ -23,7 +23,6 @@ public class DashboardTestAddStudent extends AutomationTest {
 	private void makeStudent() {
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Student");
-
 		this.command_excel_fillForm("TestCaseData.xlsx", "Student");//Fills the form from Excel sheet.
 
 		this.command_controlSetValue("Student ID", this.command_randomText(10));
@@ -40,6 +39,7 @@ public class DashboardTestAddStudent extends AutomationTest {
 
 		this.command_selectRadioButton("gender", "Male");
 		this.command_selectRadioButton("ethnicity", "American Indian/Alaskan Native");
+		this.command_clickButton("Hell World");
 
 		this.command_save();
 	}
