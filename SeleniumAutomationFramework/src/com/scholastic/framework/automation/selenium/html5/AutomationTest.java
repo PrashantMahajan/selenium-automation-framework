@@ -70,7 +70,7 @@ abstract public class AutomationTest extends TestCase {
 	}
 
 	public void command_close () {
-		this.command_cancel();
+		this.command_clickLink("close");
 	}
 	
 	public String command_controlGetValue (String prm_sControlId) {

@@ -16,7 +16,7 @@ public class ExceptionController extends Controller {
 	@Override
 	public void handleException (Exception prm_exException) {
 		prm_exException.printStackTrace();
-		LoggerController.getInstance().captureScreen();
+		LoggerController.getInstance().sendEmail(prm_exException);
 	}
 
 }
