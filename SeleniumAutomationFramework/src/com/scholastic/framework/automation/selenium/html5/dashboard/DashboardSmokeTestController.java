@@ -2,10 +2,10 @@ package com.scholastic.framework.automation.selenium.html5.dashboard;
 
 import com.scholastic.framework.Controller;
 
-public class DashboardSmokeTestCase extends Controller {
+public class DashboardSmokeTestController extends Controller {
 
-	public static DashboardSmokeTestCase getInstance () {
-		return new DashboardSmokeTestCase();
+	public static DashboardSmokeTestController getInstance () {
+		return new DashboardSmokeTestController();
 	}
 
 	public void testLogin() {
