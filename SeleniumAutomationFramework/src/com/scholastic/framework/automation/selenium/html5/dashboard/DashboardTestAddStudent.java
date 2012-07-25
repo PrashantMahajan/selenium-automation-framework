@@ -12,9 +12,6 @@ public class DashboardTestAddStudent extends AutomationTest {
 			this.command_login("teacher03", "Welcome1");
 			this.makeStudent();
 			this.command_logout();
-			this.command_login("teacher03", "Welcome1");
-			this.testStudent();
-			this.command_logout();
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
@@ -23,6 +20,7 @@ public class DashboardTestAddStudent extends AutomationTest {
 	private void makeStudent() {
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Student");
+
 		this.command_excel_fillForm("TestCaseData.xlsx", "Student");//Fills the form from Excel sheet.
 
 		this.command_controlSetValue("Student ID", this.command_randomText(10));
@@ -39,12 +37,8 @@ public class DashboardTestAddStudent extends AutomationTest {
 
 		this.command_selectRadioButton("gender", "Male");
 		this.command_selectRadioButton("ethnicity", "American Indian/Alaskan Native");
-		this.command_clickButton("Hell World");
 
 		this.command_save();
 	}
 
-	private void testStudent() {
-		
-	}
 }
