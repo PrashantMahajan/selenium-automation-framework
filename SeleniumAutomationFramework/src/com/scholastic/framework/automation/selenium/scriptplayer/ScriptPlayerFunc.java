@@ -1,8 +1,8 @@
 package com.scholastic.framework.automation.selenium.scriptplayer;
 
-import com.scholastic.framework.exceptionhandling.ExceptionController;
-
 import junit.framework.TestCase;
+
+import com.scholastic.framework.exceptionhandling.ExceptionController;
 
 public abstract class ScriptPlayerFunc extends TestCase {
 
