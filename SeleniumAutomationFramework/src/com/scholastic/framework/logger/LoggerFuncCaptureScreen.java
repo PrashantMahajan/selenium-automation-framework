@@ -13,6 +13,10 @@ import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 
 public class LoggerFuncCaptureScreen extends LoggerFunc {
 
+	public File g_objScreenShot = null;
+	public File getScreen () {
+		return this.g_objScreenShot;
+	}
 	@Override
 	public void startFunction() {
 		WebDriver v_objDriver;
@@ -23,7 +27,7 @@ public class LoggerFuncCaptureScreen extends LoggerFunc {
 			if(null == v_objDriver) {
 			} else if (v_objDriver instanceof TakesScreenshot) {
 				v_objScreenshotDriver = (TakesScreenshot) v_objDriver;
-				v_objScreenshot = v_objScreenshotDriver.getScreenshotAs(OutputType.FILE);
+				this.g_objScreenShot = v_objScreenshot = v_objScreenshotDriver.getScreenshotAs(OutputType.FILE);
 				FileUtils.copyFile(v_objScreenshot, this.getFileName());
 			}
 		} catch (Exception v_exException) {
