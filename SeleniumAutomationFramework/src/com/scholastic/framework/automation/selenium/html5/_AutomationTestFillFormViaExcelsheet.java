@@ -43,14 +43,20 @@ public class _AutomationTestFillFormViaExcelsheet {
 			while (prm_itrRow.hasNext()) {
 				try {
 					v_objRow = prm_itrRow.next();
-					v_sControlName = v_objRow.getCell(0).getStringCellValue();
-					v_sControlValue = v_objRow.getCell(1).getStringCellValue();
-					if (null == v_sControlName || "".equalsIgnoreCase(v_sControlName)) {
+					if (null == v_objRow) {
+						break;
+					} else if (null == v_objRow.getCell(0)) {
+						break;
 					} else {
-						if (null == v_sControlValue || "".equals(v_sControlValue)) {
-							v_sControlValue = "true";
+						v_sControlName = v_objRow.getCell(0).getStringCellValue();
+						v_sControlValue = v_objRow.getCell(1).getStringCellValue();
+						if (null == v_sControlName || "".equalsIgnoreCase(v_sControlName)) {
+						} else {
+							if (null == v_sControlValue || "".equals(v_sControlValue)) {
+								v_sControlValue = "true";
+							}
+							this.g_objParent.command_controlSetValue(v_sControlName, v_sControlValue);
 						}
-						this.g_objParent.command_controlSetValue(v_sControlName, v_sControlValue);
 					}
 				} catch (Exception v_exException) {
 					ExcelsheetController.getInstance().handleException(v_exException);

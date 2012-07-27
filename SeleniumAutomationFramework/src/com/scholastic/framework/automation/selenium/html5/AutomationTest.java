@@ -59,11 +59,21 @@ abstract public class AutomationTest extends TestCase {
 	}
 
 	public void command_clickButton (String prm_sButtonID) {
-		if (null != this.command_getControl(prm_sButtonID)) {
-			this.command_getControl(prm_sButtonID).click();
-		} else {
-			this.command_clickLink(prm_sButtonID);
+		WebElement v_ctlButton;
+
+		v_ctlButton = (WebElement)this.executeJavaScript("" +
+				"\n var v_ctlButton = null;" +
+				"\n var v_arrButtons = null;" +
+				"\n v_arrButtons = $(\"button:contains('" + prm_sButtonID + "')\");" +
+				"\n if (v_arrButtons.length > 0) {" +
+				"\n 	v_ctlButton = v_arrButtons[0];" +
+				"\n }" +
+				"\n return v_ctlButton;"
+		);
+		if (null == v_ctlButton) {
+			v_ctlButton = this.command_getControl(prm_sButtonID);
 		}
+		v_ctlButton.click();
 	}
 	public void command_clickCheckbox (String prm_sChekboxId) {
 		this.command_getControl(prm_sChekboxId).click();

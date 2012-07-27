@@ -5,9 +5,10 @@ Prashant:
 4. Auto-EMailing
 5. Further Simplify the api by introducing command_controlSetValue and command_controlGetValue
 6. Make the URL to set from Properties file ad not a hard-coded value - Done.
-
+7. Edit -student/class profile.
 Karam:
 1. Test Case for Running a report: Done
 2. Other Testcases.-- search student link
                       product settings
-3. Enquire excel.
+3. Document
+4. Demo to QA -recording in Selenium.

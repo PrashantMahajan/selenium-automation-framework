@@ -13,7 +13,9 @@ public class DashboardTestAddClass extends AutomationTest {
 			//this.command_setBrowser(Browsers.IE8);
 			this.command_login("teacher03", "Welcome1");
 			this.makeClass();
+			//this.command_waitInSeconds(120);
 			this.command_logout();
+			
 			
 			
 		} catch (Exception v_exException) {
@@ -25,12 +27,14 @@ public class DashboardTestAddClass extends AutomationTest {
 		
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Class");
+		
 		this.command_cancel();
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Add a Class");
+		this.command_excel_fillForm("TestCaseData.xlsx", "Class");//Fills the form from Excel sheet.
 
 		//this.command_enterText("sis_id", this.command_randomText(10));
-		this.command_enterText("display_name",this.command_uniqueText(10));
+		//this.command_enterText("display_name",this.command_uniqueText(10));
 		this.command_clickCheckbox("grade");
 		this.command_clickCheckbox("grade1");
 		this.command_clickCheckbox("grade2");

@@ -19,6 +19,9 @@ public class DashboardTestSearchStudent extends AutomationTest {
 		//method to test search student link
 		this.command_clickLink("Gateway");
 		this.command_clickLink("Search Student");
+		this.command_clickButton("Search");
+		assert(null != this.command_getControl("searchResultTable"));
+		this.command_waitInSeconds(5);
 		this.command_close();
 	}
 }
