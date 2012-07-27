@@ -5,6 +5,7 @@ import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import org.openqa.selenium.WebDriverBackedSelenium;
 
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 
@@ -14,9 +15,8 @@ public class ScriptPlayerFuncRunTestScriptAsXML extends ScriptPlayerFunc {
 		@Override
 		public void testStart() {
 		}
-		
 	};
-	
+
 	private Document g_objCommandRoot = null;
 	private Element g_objRoot = null;
 	private FakeAutomationClass g_objAutomationTestCase = new FakeAutomationClass();
@@ -61,10 +61,40 @@ public class ScriptPlayerFuncRunTestScriptAsXML extends ScriptPlayerFunc {
 				v_sUniquenesCriteria = v_lNodes.get(1).getStringValue();
 				v_sCommandInput = v_lNodes.get(2).getStringValue();
 			}
-			//TODO : Use Reflection or If/Else to call the API. We prefer Reflections.
+			this.executeCommand(v_sCommandName, v_sUniquenesCriteria, v_sCommandInput);
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
+	}
+
+	private void executeCommand(String prm_sCommandName, String prm_sUniquenesCriteria, String prm_sCommandInput) {
+		Class<WebDriverBackedSelenium> v_objClass;
+		try {
+			v_objClass = WebDriverBackedSelenium.class;
+			if (this.validateMethod(v_objClass, prm_sCommandName, prm_sUniquenesCriteria, prm_sCommandInput)) {
+				this.invokeMethod(prm_sCommandName, prm_sUniquenesCriteria, prm_sCommandInput);
+			}
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+	}
+
+	private void invokeMethod(String prm_sCommandName, String prm_sUniquenesCriteria, String prm_sCommandInput) {
+		WebDriverBackedSelenium v_objSelenium;
+		try {
+			v_objSelenium = AutomationTest.getSelenium();
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+	}
+
+	private boolean validateMethod(Class<WebDriverBackedSelenium> prm_objClass, String prm_sCommandName, String prm_sUniquenesCriteria, String prm_sCommandInput) {
+		try {
+			
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+		return false;
 	}
 
 }

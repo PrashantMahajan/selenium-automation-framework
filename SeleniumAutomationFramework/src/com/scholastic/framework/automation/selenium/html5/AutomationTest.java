@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverBackedSelenium;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.android.AndroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,8 +28,12 @@ abstract public class AutomationTest extends TestCase {
 
 	//This framework, right now runs a single instance of the Web-Browser
 	private static WebDriver g_objWebDriver;
+	private static WebDriverBackedSelenium g_objSelenium;
 	public static WebDriver getDriver () {
 		return AutomationTest.g_objWebDriver;
+	}
+	public static WebDriverBackedSelenium getSelenium () {
+		return AutomationTest.g_objSelenium;
 	}
 
 	private String g_sURL = "http://integration15.education.scholastic.com/dashboard";
@@ -358,6 +363,7 @@ abstract public class AutomationTest extends TestCase {
 				AutomationTest.g_objWebDriver = new AndroidDriver();
 				break;
 			}
+			AutomationTest.g_objSelenium = new WebDriverBackedSelenium(AutomationTest.g_objWebDriver, ".");
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
