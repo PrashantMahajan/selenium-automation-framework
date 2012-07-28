@@ -5,3 +5,4 @@ com.scholastic.framework.context
 com.scholastic.framework.excel
 com.scholastic.framework.exceptionhandling
 com.scholastic.framework.logger
+com.scholastic.framework.persongenerator
