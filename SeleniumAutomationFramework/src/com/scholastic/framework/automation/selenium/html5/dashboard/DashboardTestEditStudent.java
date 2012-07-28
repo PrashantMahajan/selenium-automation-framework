@@ -6,6 +6,7 @@ public class DashboardTestEditStudent extends AutomationTest {
 
 	private String g_sUsername = null;
 	private String g_sPassword = null;
+
 	@Override
 	public void testStart() {
 		try {
@@ -18,9 +19,18 @@ public class DashboardTestEditStudent extends AutomationTest {
 			this.handleException(v_exException);
 		}
 	}
-		
+
 	private void editStudent() {
-		
+		String v_sFirstName;
+		String v_sLastName;
+
+		v_sFirstName = this.command_excel_getCellValue("TestCaseData.xlsx", "Student", "First Name");
+		v_sLastName = this.command_excel_getCellValue("TestCaseData.xlsx", "Student", "Last Name");
+
+		selenium.click("xpath=(//a[contains(text(),'Roster')])[10]");
+		selenium.click("xpath=(//a[contains(text(),'" + v_sFirstName + " " + v_sLastName +  "')])[4]");
+		selenium.select("id=grade", "label=Pre-Kindergarten");
+		selenium.click("//button[@type='button']");
 	}
 
 	private void makeStudent() {
@@ -49,6 +59,6 @@ public class DashboardTestEditStudent extends AutomationTest {
 
 
 
-	}
+}
 
 

@@ -1,11 +1,14 @@
 package com.scholastic.framework.automation.selenium.html5;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
 import junit.framework.TestCase;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +22,7 @@ import org.openqa.selenium.iphone.IPhoneDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.scholastic.framework.Controller;
+import com.scholastic.framework.excel.ExcelsheetController;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
 abstract public class AutomationTest extends TestCase {
@@ -28,12 +32,13 @@ abstract public class AutomationTest extends TestCase {
 
 	//This framework, right now runs a single instance of the Web-Browser
 	private static WebDriver g_objWebDriver;
-	private static WebDriverBackedSelenium g_objSelenium;
+	protected static WebDriverBackedSelenium selenium;
+
 	public static WebDriver getDriver () {
 		return AutomationTest.g_objWebDriver;
 	}
 	public static WebDriverBackedSelenium getSelenium () {
-		return AutomationTest.g_objSelenium;
+		return AutomationTest.selenium;
 	}
 
 	private String g_sURL = "http://integration15.education.scholastic.com/dashboard";
@@ -87,12 +92,13 @@ abstract public class AutomationTest extends TestCase {
 	public void command_close () {
 		this.command_clickLink("close");
 	}
-	
+
 	public String command_controlGetValue (String prm_sControlId) {
 		String v_Return = null;
+		v_Return = this.command_getControl(prm_sControlId).getText();
 		return v_Return;
 	}
-	
+
 	public void command_controlSetValue (String prm_sControlId, String prm_sControlValue) {
 		String v_sTagName;
 		String v_sType;
@@ -187,8 +193,33 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
-	public String command_excel_getValue (String prm_sFileName, String prm_sSheetName, String prm_sFieldName) {
-		return "";
+	public String command_excel_getCellValue (String prm_sFileName, String prm_sSheetName, String prm_sControlValue) {
+		String v_Return = "";
+		Row v_objRow;
+		Sheet v_objSheet;
+		Iterator<Row> v_itr;
+		try {
+			v_objSheet = this.command_excel_getSheet(prm_sFileName, prm_sSheetName);
+			v_itr = v_objSheet.rowIterator();
+			while (v_itr.hasNext()) {
+				v_objRow = v_itr.next();
+				if (v_objRow.getCell(0).getStringCellValue().equals(prm_sControlValue)) {
+					v_Return = v_objRow.getCell(1).getStringCellValue();
+				}
+			}
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+		return v_Return;
+	}
+	public Sheet command_excel_getSheet (String prm_sFileName, String prm_sSheetName) {
+		Sheet v_Return = null;
+		try {
+			v_Return = ExcelsheetController.getInstance().getSheet(prm_sFileName, prm_sSheetName);
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+		return v_Return;
 	}
 
 	public WebElement command_getControl (String prm_sId) {
@@ -373,7 +404,7 @@ abstract public class AutomationTest extends TestCase {
 				AutomationTest.g_objWebDriver = new AndroidDriver();
 				break;
 			}
-			AutomationTest.g_objSelenium = new WebDriverBackedSelenium(AutomationTest.g_objWebDriver, ".");
+			AutomationTest.selenium = new WebDriverBackedSelenium(AutomationTest.g_objWebDriver, ".");
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
