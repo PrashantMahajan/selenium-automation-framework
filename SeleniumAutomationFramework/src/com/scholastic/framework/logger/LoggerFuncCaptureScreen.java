@@ -9,7 +9,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import com.scholastic.framework.automation.selenium.html5.AutomationTest;
+import com.scholastic.framework.context.ApplicationContext;
 
 public class LoggerFuncCaptureScreen extends LoggerFunc {
 
@@ -23,7 +23,7 @@ public class LoggerFuncCaptureScreen extends LoggerFunc {
 		TakesScreenshot v_objScreenshotDriver;
 		File v_objScreenshot;
 		try {
-			v_objDriver = AutomationTest.getDriver();
+			v_objDriver = ApplicationContext.getInstance().getWebDriver();
 			if(null == v_objDriver) {
 			} else if (v_objDriver instanceof TakesScreenshot) {
 				v_objScreenshotDriver = (TakesScreenshot) v_objDriver;

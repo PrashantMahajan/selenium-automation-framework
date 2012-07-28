@@ -1,6 +1,7 @@
 package com.scholastic.framework.automation.selenium.html5.dashboard;
 
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
+import com.scholastic.framework.context.ApplicationContext;
 
 public class DashboardTestProductSettings extends AutomationTest {
 
@@ -10,7 +11,7 @@ public class DashboardTestProductSettings extends AutomationTest {
 			this.command_login("teacher03", "Welcome1");
 			this.productSettings();
 			this.command_logout();
-			AutomationTest.getDriver().close();
+			ApplicationContext.getInstance().getWebDriver().close();
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
