@@ -3,7 +3,8 @@ package com.scholastic.framework.logger;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Date;
-import java.util.Properties;
+
+import com.scholastic.framework.context.ApplicationContext;
 
 public class LoggerFuncException extends LoggerFunc {
 
@@ -26,11 +27,8 @@ public class LoggerFuncException extends LoggerFunc {
 	}
 	private String getLoggerFileName() {
 		String v_sFileName = "logger.log";
-		Properties v_objProperties;
 		try {
-			v_objProperties = new Properties();
-			v_objProperties.load(ClassLoader.getSystemResourceAsStream("TestCases.properties"));
-			v_sFileName = (String)v_objProperties.get("screenshotfolder");
+			v_sFileName = ApplicationContext.getInstance().getProperty("screenshotfolder");
 			if (v_sFileName.endsWith("/") || v_sFileName.endsWith("\\")) {
 				v_sFileName += new Date().toString().replace(":", "-") + ".log";
 			} else {

@@ -9,9 +9,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
 
 import com.scholastic.framework.exceptionhandling.ExceptionController;
-
+/**
+ * @author prashant
+ * @category This is backbone of the application. There must be a single instance of this class per application thread. Thus you can define the static in this class.
+ * All the properties/configuration etc. must go through this class.
+ */
 public class ApplicationContext {
 	private static ApplicationContext g_objAppContext;
+	/**
+	 * Gets the instance of the ApplicationContext thread. Initializes the TestCases.properties file.
+	 */
 	public static ApplicationContext getInstance () {
 		if (null == ApplicationContext.g_objAppContext) {
 			ApplicationContext.g_objAppContext = new ApplicationContext();
@@ -28,31 +35,59 @@ public class ApplicationContext {
 		this.init();
 	}
 	
+	/**
+	 * Registers a new workbook to the application thread.
+	 * @param prm_sFileName : The name of the Excel workbook file.
+	 * @param prm_objWorkbook : The actual instance of the workbook object.
+	 */
 	public void addWorkbook (String prm_sFileName, Workbook prm_objWorkbook) {
 		this.g_hWorkbook.put(prm_sFileName, prm_objWorkbook);
 	}
 
+	/**
+	 * Gets the value of the property as specified in the "TestCases.properties" file.
+	 * @param : Name of the property menthioned in the properties file.
+	 */
 	public String getProperty (String prm_sPropertyName) {
 		return (String) this.g_objProperties.get(prm_sPropertyName);
 	}
 
+	/**
+	 * Returns the active instance of the Selenium Object
+	 */
 	public WebDriverBackedSelenium getSelenium () {
 		return this.g_objSelenium;
 	}
 	
+	/**
+	 * Returns the active instance of the WebDriver object.
+	 */
 	public WebDriver getWebDriver () {
 		return this.g_objWebDriver;
 	}
 	
+	/**
+	 * Gets the instance of the workbook based on the File name
+	 * @param prm_sFileName : The name of the Excel file.
+	 */
 	public Workbook getWorkbook (String prm_sFileName) {
 		Workbook v_Return = null;
 		v_Return = this.g_hWorkbook.get(prm_sFileName);
 		return v_Return;
 	}
 	
+	/**
+	 * Registers the active instance of the Selenium object instance.
+	 * @param prm_objSelenium : Active Selenium object.
+	 */
 	public void setSelenium (WebDriverBackedSelenium prm_objSelenium) {
 		this.g_objSelenium = prm_objSelenium;
 	}
+
+	/**
+	 * Registers the active WebDriver instance of the current browser window.
+	 * @param prm_objWebDriver : The current active Web Driver.
+	 */
 	public void setWebDriver (WebDriver prm_objWebDriver) {
 		this.g_objWebDriver = prm_objWebDriver;
 	}

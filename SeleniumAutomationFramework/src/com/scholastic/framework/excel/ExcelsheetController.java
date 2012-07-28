@@ -1,13 +1,19 @@
 package com.scholastic.framework.excel;
 
-
 import org.apache.poi.ss.usermodel.Sheet;
 
 import com.scholastic.framework.Controller;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
-
+/**
+ * @author prashant
+ * @category Performs all the required operations on the ExcelSheets.
+ * For any operation that is required on the Excel workbook. Please register the method here.
+ */
 public class ExcelsheetController extends Controller {
 
+	/**
+	 * Get the instance of the {@link ExcelsheetController}
+	 */
 	public static ExcelsheetController getInstance () {
 		return new ExcelsheetController();
 	}
@@ -15,6 +21,13 @@ public class ExcelsheetController extends Controller {
 	private ExcelsheetController () {
 	}
 
+	/**
+	 * Gets an instance of the Excelsheet. The Application registers all the workboks opened, thus the same 
+	 * workbook+sheet would return the same object always.
+	 * @param prm_sFileName : The name of the Excel workbook. This method used Classloader to find the file. 
+	 * Thus please ensure that the file is kept in the classpath.
+	 * @param prm_sSheet : The sheet in the workbook that is required to be fetched.
+	 */
 	public Sheet getSheet (String prm_sFileName, String prm_sSheet) {
 		Sheet v_Return = null;
 		ExcelsheetRead v_fn;

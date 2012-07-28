@@ -7,7 +7,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import com.scholastic.framework.excel.ExcelsheetController;
 
-public class _AutomationTestFillFormViaExcelsheet {
+class _AutomationTestFillFormViaExcelsheet {
 
 	private String g_sFileName = null;
 	private String g_sSheetName = null;
