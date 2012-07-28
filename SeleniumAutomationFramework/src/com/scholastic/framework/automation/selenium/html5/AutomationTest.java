@@ -1,3 +1,4 @@
+
 package com.scholastic.framework.automation.selenium.html5;
 
 import java.util.Iterator;
@@ -25,41 +26,57 @@ import com.scholastic.framework.context.ApplicationContext;
 import com.scholastic.framework.excel.ExcelsheetController;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
+/**
+ * @author prashant
+ * @usage
+ * This is the base class for all the Selenium test cases that we wish to write.
+ * This framework recommends using this class but doesn't force you to use it.
+ * You can and may write your own test case class for your custom needs.
+ * <br />
+ * <h1>NOTE:</h1> This class, right now runs a single instance of the Web-Browser only.
+ * If you wish to work with multiple instance of the browsers, you can extend this
+ * class or can make a new one.
+ */
 abstract public class AutomationTest extends TestCase {
 
+	/** 
+	 * Right now we support the following 9 browsers.
+	 */
 	public static enum Browsers {FIREFOX, IE8, IE9, CHROME, SAFARI, IPHONE, ANDROID};
-	public static final String MAX_WAIT_TIME_IN_MS = "60000";
-
-	//This framework, right now runs a single instance of the Web-Browser
-	private static WebDriver g_objWebDriver;
-	protected static WebDriverBackedSelenium selenium;
-
-	public static WebDriver getDriver () {
-		return AutomationTest.g_objWebDriver;
-	}
-	public static WebDriverBackedSelenium getSelenium () {
-		return AutomationTest.selenium;
-	}
 
 	private String g_sURL = "";
-
+	private ApplicationContext g_objContext = ApplicationContext.getInstance();
 	private Controller g_objController;
+	private WebDriver g_objWebDriver;
+	protected WebDriverBackedSelenium selenium;
 
 	public AutomationTest () {
 		try {
 			this.g_sURL = ApplicationContext.getInstance().getProperty("url");
 			if (null == this.g_sURL || "".equals(this.g_sURL)) {
-				System.out.println("You may wish to set the URL in the TestCases.properties file.");
+				System.err.println("You may wish to set the URL in the TestCases.properties file.");
 			}
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
 	}
 
+	/**
+	 * Clicks the Cancel Button on the current Popup window.
+	 */
 	public void command_cancel () {
 		this.executeJavaScript("$(\"button:contains('Cancel')\").click()");
 	}
 
+	/**
+	 * Clicks the button. In-case of multiple buttons on the screen having the same id/name/label, this method
+	 * would click the first one.
+	 * @param prm_sButtonID : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * 
+	 */
 	public void command_clickButton (String prm_sButtonID) {
 		WebElement v_ctlButton;
 
@@ -77,25 +94,65 @@ abstract public class AutomationTest extends TestCase {
 		}
 		v_ctlButton.click();
 	}
+	/**
+	 * Clicks the Checkbox. In-case of multiple checkboxes on the screen having the same id/name/label, this method
+	 * would click the first one.
+	 * @param prm_sChekboxId : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 */
 	public void command_clickCheckbox (String prm_sChekboxId) {
 		this.command_getControl(prm_sChekboxId).click();
 	}
 	
+	/**
+	 * Clicks the Link. In-case of multiple links on the screen having the same id/name/label, this method
+	 * would click the first one. This method auto-waits for 1 second after clicking the link. 
+	 * @param prm_sLinkText : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * <br>4. Link Text
+	 * <br>5. Link Partial Text
+	 */
 	public void command_clickLink (String prm_sLinkText) {
 		this.command_getControl(prm_sLinkText).click();
 		this.command_waitInSeconds(1);
 	}
 
+	/**
+	 * This method would click the close icon on the currently opened popup.
+	 */
 	public void command_close () {
 		this.command_clickLink("close");
 	}
 
+	/**
+	 * Fetches the value if the control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would return the value of the first one.
+	 * @param prm_sControlId : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 */
 	public String command_controlGetValue (String prm_sControlId) {
 		String v_Return = null;
 		v_Return = this.command_getControl(prm_sControlId).getText();
 		return v_Return;
 	}
 
+	/**
+	 * Sets the value if the control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would set the value in the first one.
+	 * @param prm_sControlId : The valid information that you can pass in the first parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * 
+	 * @param prm_sControlValue : The Control value, that is required to be set.
+	 * 
+	 */
 	public void command_controlSetValue (String prm_sControlId, String prm_sControlValue) {
 		String v_sTagName;
 		String v_sType;
@@ -157,26 +214,67 @@ abstract public class AutomationTest extends TestCase {
 			}
 		}
 	}
-	
+	/**
+	 * Clicks the Delete button on the currently opened popup.
+	 */
 	public void command_delete () {
 		this.executeJavaScript("$(\"button:contains('Delete')\").click()");
 	}
 	
+	/**
+	 * Sets the value if the TextArea/Memo control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would set the value in the first one.
+	 * @param prm_sMemoId : The valid information that you can pass in the first parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * 
+	 * @param prm_sText : The Control value, that is required to be set.
+	 * 
+	 */
 	public void command_enterMemo (String prm_sMemoId, String prm_sText) {
 		this.command_getControl(prm_sMemoId).clear();
 		this.command_getControl(prm_sMemoId).sendKeys(prm_sText);
 	}
 
+	/**
+	 * Sets the value in the password control.In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would set the value in the first one.
+	 * @param prm_sPasswordBoxId : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * 
+	 * @param prm_sPassword : The value that you wish to set.
+	 */
 	public void command_enterPassword (String prm_sPasswordBoxId, String prm_sPassword) {
 		this.command_getControl(prm_sPasswordBoxId).clear();
 		this.command_getControl(prm_sPasswordBoxId).sendKeys(prm_sPassword);
 	}
-
+	/**
+	 * Sets the value in the Textbox control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would set the value in the first one.
+	 * @param prm_sTextBoxId : The valid information that you can pass in the parameter is
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * 
+	 * @param prm_sTextToEnter : The value that you wish to set.
+	 */
 	public void command_enterText (String prm_sTextBoxId, String prm_sTextToEnter) {
 		this.command_getControl(prm_sTextBoxId).clear();
 		this.command_getControl(prm_sTextBoxId).sendKeys(prm_sTextToEnter);
 	}
-	
+
+	/**
+	 * This method would automatically read the Excel sheet and would auto-populate the Current form with the 
+	 * values specified in the Excel sheet.
+	 * 
+	 * @param prm_sFileName : The Name of the Excel File. This method in-turn uses classloader to find the File.
+	 * Thus please ensure that the file is present in the class path.
+	 * @param prm_sSheetName : The Excel sheet that you wish to read from with-in the workbook.
+	 * 
+	 */
 	public void command_excel_fillForm (String prm_sFileName, String prm_sSheetName) {
 		_AutomationTestFillFormViaExcelsheet v_fn = null;
 		try {
@@ -190,6 +288,14 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
+	/**
+	 * This method would fetch the Control value from the excel-sheet. This method assumes that the first column is the 
+	 * Control name and the second column is the Control value.
+	 * @param prm_sFileName : The Name of the Excel File. This method in-turn uses classloader to find the File.
+	 * Thus please ensure that the file is present in the class path
+	 * @param prm_sSheetName : The Excel sheet that you wish to read from with-in the workbook.
+	 * @param prm_sControlValue : The Control name specified in the excelsheet.
+	 */
 	public String command_excel_getCellValue (String prm_sFileName, String prm_sSheetName, String prm_sControlValue) {
 		String v_Return = "";
 		Row v_objRow;
@@ -223,15 +329,15 @@ abstract public class AutomationTest extends TestCase {
 		WebElement v_Return = null;
 		try {
 			try {
-				v_Return = AutomationTest.g_objWebDriver.findElement(By.id(prm_sId));
+				v_Return = this.g_objWebDriver.findElement(By.id(prm_sId));
 			} catch (Exception v_exException) {
 			}
 			try {
-				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.name(prm_sId)));
+				v_Return = (null != v_Return ? v_Return : this.g_objWebDriver.findElement(By.name(prm_sId)));
 			} catch (Exception v_exException) {
 			}
 			try {
-				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.linkText(prm_sId)));
+				v_Return = (null != v_Return ? v_Return : this.g_objWebDriver.findElement(By.linkText(prm_sId)));
 			} catch (Exception v_exException) {
 			}
 			
@@ -260,11 +366,11 @@ abstract public class AutomationTest extends TestCase {
 			} catch (Exception v_exException) {
 			}
 			try {
-				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.partialLinkText(prm_sId)));
+				v_Return = (null != v_Return ? v_Return : this.g_objWebDriver.findElement(By.partialLinkText(prm_sId)));
 			} catch (Exception v_exException) {
 			}
 			try {
-				v_Return = (null != v_Return ? v_Return : AutomationTest.g_objWebDriver.findElement(By.className(prm_sId)));
+				v_Return = (null != v_Return ? v_Return : this.g_objWebDriver.findElement(By.className(prm_sId)));
 			} catch (Exception v_exException) {
 			}
 		} catch (Exception v_exException) {
@@ -301,15 +407,15 @@ abstract public class AutomationTest extends TestCase {
 
 	public WebDriver command_openURL (String prm_sSite) {
 		try {
-			if (null == AutomationTest.g_objWebDriver) {
+			if (null == this.g_objWebDriver) {
 				this.command_setBrowser(Browsers.FIREFOX);
 			}
-			AutomationTest.g_objWebDriver.get(prm_sSite);
+			this.g_objWebDriver.get(prm_sSite);
 			this.command_waitInSeconds(5);
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
-		return AutomationTest.g_objWebDriver;
+		return this.g_objWebDriver;
 	}
 
 	public String command_randomText (int prm_iLength) {
@@ -354,7 +460,7 @@ abstract public class AutomationTest extends TestCase {
 	public void command_selectRadioButton (String prm_sControlName, String prm_sOptionId) {
 		List<WebElement> v_lAllOptions;
 		try {
-			v_lAllOptions = AutomationTest.g_objWebDriver.findElements(By.name(prm_sControlName));
+			v_lAllOptions = this.g_objWebDriver.findElements(By.name(prm_sControlName));
 			for (WebElement v_objElement : v_lAllOptions) {
 				if (v_objElement.getText().equals(prm_sOptionId)) {
 					v_objElement.click();
@@ -372,36 +478,38 @@ abstract public class AutomationTest extends TestCase {
 	}
 	public void command_setBrowser (Browsers prm_iBrowser) {
 		try {
-			if (null != AutomationTest.g_objWebDriver) {
-				AutomationTest.g_objWebDriver.close();
-				AutomationTest.g_objWebDriver = null;
+			if (null != this.g_objWebDriver) {
+				this.g_objWebDriver.close();
+				this.g_objWebDriver = null;
 			}
 			switch (prm_iBrowser) {
 			case FIREFOX:
-				AutomationTest.g_objWebDriver = new FirefoxDriver();
+				this.g_objWebDriver = new FirefoxDriver();
 				break;
 			case IE9:
 			case IE8:
-				AutomationTest.g_objWebDriver = new InternetExplorerDriver();
+				this.g_objWebDriver = new InternetExplorerDriver();
 				break;
 			case CHROME:
-				AutomationTest.g_objWebDriver = new ChromeDriver();
+				this.g_objWebDriver = new ChromeDriver();
 				break;
 			case SAFARI:
-				AutomationTest.g_objWebDriver = new SafariDriver();
+				this.g_objWebDriver = new SafariDriver();
 				break;
 			case IPHONE:
 				try {
-					AutomationTest.g_objWebDriver = new IPhoneDriver();
+					this.g_objWebDriver = new IPhoneDriver();
 				} catch (Exception v_exException) {
 					this.handleException(v_exException);
 				}
 				break;
 			case ANDROID:
-				AutomationTest.g_objWebDriver = new AndroidDriver();
+				this.g_objWebDriver = new AndroidDriver();
 				break;
 			}
-			AutomationTest.selenium = new WebDriverBackedSelenium(AutomationTest.g_objWebDriver, ".");
+			this.selenium = new WebDriverBackedSelenium(this.g_objWebDriver, ".");
+			this.g_objContext.setWebDriver(this.g_objWebDriver);
+			this.g_objContext.setSelenium(this.selenium);
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
@@ -450,7 +558,7 @@ abstract public class AutomationTest extends TestCase {
 		Object v_Return = null;
 		JavascriptExecutor v_objJS;
 		try {
-			v_objJS = (JavascriptExecutor) AutomationTest.g_objWebDriver;
+			v_objJS = (JavascriptExecutor) this.g_objWebDriver;
 			v_Return = v_objJS.executeScript(prm_sCommand);
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);

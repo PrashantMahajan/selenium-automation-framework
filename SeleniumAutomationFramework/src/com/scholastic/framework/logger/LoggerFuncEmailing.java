@@ -134,8 +134,6 @@ public class LoggerFuncEmailing extends LoggerFunc {
 
 	private void setMessage() {
 		BodyPart v_objMessageBody;
-		PrintWriter v_objPrintStream;
-		StringWriter v_objStringWriter;
 		try {
 			this.g_objMultiPart = new MimeMultipart();
 			this.g_objEmail.setContent(this.g_objMultiPart);
@@ -143,16 +141,30 @@ public class LoggerFuncEmailing extends LoggerFunc {
 			this.g_objMultiPart.addBodyPart(v_objMessageBody);
 
 			if (null != this.g_objException) {
-				v_objStringWriter = new StringWriter();
-				v_objPrintStream = new PrintWriter(v_objStringWriter);
-				this.g_objException.printStackTrace(v_objPrintStream);
-				v_objMessageBody.setText(v_objStringWriter.toString());
+				v_objMessageBody.setText(this.extractMessageFromException());
+
 			} else {
 				v_objMessageBody.setText("You have a bug");
 			}
 		} catch (Exception v_exException) {
 			v_exException.printStackTrace();
 		}
+	}
+
+	private String extractMessageFromException() {
+		String v_Return = "";
+		PrintWriter v_objPrintStream;
+		StringWriter v_objStringWriter = null;
+		try {
+			v_objStringWriter = new StringWriter();
+			v_objPrintStream = new PrintWriter(v_objStringWriter);
+			this.g_objException.printStackTrace(v_objPrintStream);
+			v_Return = v_objStringWriter.toString();
+			
+		} catch (Exception v_exException) {
+			v_exException.printStackTrace();
+		}
+		return v_Return;
 	}
 
 	private void setAttachment() {
