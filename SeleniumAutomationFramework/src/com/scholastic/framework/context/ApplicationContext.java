@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriverBackedSelenium;
 
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 /**
- * This is backbone of the application. There must be a single instance of this class per application thread. Thus you can define the static in this class.
+ * This is backbone of the application. There must be a single instance of this class per application thread. Thus you can define all the statics in this class.
  * All the properties/configuration etc. must go through this class.
  * @author prashant
  */
