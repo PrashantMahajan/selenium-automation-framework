@@ -39,7 +39,16 @@ import com.scholastic.framework.exceptionhandling.ExceptionController;
 abstract public class AutomationTest extends TestCase {
 
 	/** 
-	 * Right now we support the following 9 browsers.
+	 * Right now we support the following 7 browsers
+	 * <ol>
+	 * 	<li>FIREFOX</li>
+	 * 	<li>IE8</li>
+	 * 	<li>IE9</li>
+	 * 	<li>CHROME</li>
+	 * 	<li>SAFARI</li>
+	 * 	<li>IPHONE</li>
+	 * 	<li>ANDROID</li>
+	 * </ol>
 	 */
 	public static enum Browsers {FIREFOX, IE8, IE9, CHROME, SAFARI, IPHONE, ANDROID};
 

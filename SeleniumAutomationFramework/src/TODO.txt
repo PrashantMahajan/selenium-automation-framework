@@ -27,7 +27,7 @@ Demo Script:
 6. Show the Auto-Recording.
 7. Show how Auto-Recorded code gets plugged in as a test case.
 8. Discuss the overall phases of the plan
-	a. Automation
+	a. Automation (This is what we are talking today.)
 	b. Development
 	c. Build
 	Basically the point is not only to improve the QA but the re-define the way we are doing the development.
