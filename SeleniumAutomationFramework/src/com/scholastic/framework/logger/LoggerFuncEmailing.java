@@ -19,11 +19,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.scholastic.framework.context.ApplicationContext;
+
 public class LoggerFuncEmailing extends LoggerFunc {
 
-	private String g_sFrom = "Prashant.Mahajan@gmx.com";
-	private String g_sTo = "KSandhu-consultant@Scholastic.com";
-	private String g_sHost = "smtp.gmx.com";
+	private String g_sFrom = "";
+	private String g_sTo = "";
+	private String g_sHost = "";
 	private String g_sPassword = "";
 	private Exception g_objException = null;
 	private File g_objFile = null;
@@ -64,26 +66,25 @@ public class LoggerFuncEmailing extends LoggerFunc {
 
 	private void setBasicVariables() {
 		String v_sVal;
-		Properties v_objProperties;
+		ApplicationContext v_objContext;
 		try {
-			v_objProperties = new Properties();
-			v_objProperties.load(ClassLoader.getSystemResourceAsStream("TestCases.properties"));
-			v_sVal = (String)v_objProperties.get("email.host");
+			v_objContext = ApplicationContext.getInstance();
+			v_sVal = v_objContext.getProperty("email.host");
 			if (null == v_sVal || "".equals(v_sVal)) {
 			} else {
 				this.g_sHost = v_sVal;
 			}
-			v_sVal = (String)v_objProperties.get("email.from");
+			v_sVal = v_objContext.getProperty("email.from");
 			if (null == v_sVal || "".equals(v_sVal)) {
 			} else {
 				this.g_sFrom = v_sVal;
 			}
-			v_sVal = (String)v_objProperties.get("email.to");
+			v_sVal = v_objContext.getProperty("email.to");
 			if (null == v_sVal || "".equals(v_sVal)) {
 			} else {
 				this.g_sTo = v_sVal;
 			}
-			v_sVal = (String)v_objProperties.get("email.password");
+			v_sVal = v_objContext.getProperty("email.password");
 			if (null == v_sVal || "".equals(v_sVal)) {
 			} else {
 				this.g_sPassword = v_sVal;

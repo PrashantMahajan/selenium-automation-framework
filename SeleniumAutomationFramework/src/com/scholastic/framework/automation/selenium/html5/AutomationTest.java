@@ -2,7 +2,6 @@ package com.scholastic.framework.automation.selenium.html5;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 
 import junit.framework.TestCase;
@@ -22,6 +21,7 @@ import org.openqa.selenium.iphone.IPhoneDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.scholastic.framework.Controller;
+import com.scholastic.framework.context.ApplicationContext;
 import com.scholastic.framework.excel.ExcelsheetController;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
@@ -41,16 +41,13 @@ abstract public class AutomationTest extends TestCase {
 		return AutomationTest.selenium;
 	}
 
-	private String g_sURL = "http://integration15.education.scholastic.com/dashboard";
+	private String g_sURL = "";
 
 	private Controller g_objController;
 
 	public AutomationTest () {
-		Properties v_objProperties;
 		try {
-			v_objProperties = new Properties();
-			v_objProperties.load(ClassLoader.getSystemResourceAsStream("TestCases.properties"));
-			this.g_sURL = (String) v_objProperties.get("url");
+			this.g_sURL = ApplicationContext.getInstance().getProperty("url");
 			if (null == this.g_sURL || "".equals(this.g_sURL)) {
 				System.out.println("You may wish to set the URL in the TestCases.properties file.");
 			}
