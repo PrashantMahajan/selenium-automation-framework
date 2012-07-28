@@ -20,7 +20,9 @@ Demo Script:
 1. Self-Initiative - thus no obligation.
 2. Need for Automation.
 3. How developers and QA would work hand-in-hand.
-4. Add/Edit a Student
+4. Number of browsers and Devices supported
+5. Add/Edit a Student FireFox.
+6. Add/Edit a Student on IE.
 5. Show the Error Email.
 6. Show the Auto-Recording.
 7. Show how Auto-Recorded code gets plugged in as a test case.
