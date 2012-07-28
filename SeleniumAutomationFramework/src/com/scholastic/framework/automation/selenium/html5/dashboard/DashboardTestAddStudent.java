@@ -11,6 +11,7 @@ public class DashboardTestAddStudent extends AutomationTest {
 	public void testStart() {
 		try {
 			this.command_login("teacher03", "Welcome1");
+			this.command_getControl("Faile me");
 			this.makeStudent();
 			this.command_logout();
 		} catch (Exception v_exException) {

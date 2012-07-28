@@ -175,7 +175,7 @@ public class LoggerFuncEmailing extends LoggerFunc {
 			v_objStringWriter = new StringWriter();
 			v_objPrintStream = new PrintWriter(v_objStringWriter);
 			this.g_objException.printStackTrace(v_objPrintStream);
-			v_Return += "\n" + v_objStringWriter.toString();
+			v_Return += "\nStack Trace: \n" + v_objStringWriter.toString();
 			
 		} catch (Exception v_exException) {
 			v_exException.printStackTrace();
