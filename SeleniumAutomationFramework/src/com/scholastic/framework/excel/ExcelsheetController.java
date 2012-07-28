@@ -5,9 +5,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import com.scholastic.framework.Controller;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 /**
- * @author prashant
- * @category Performs all the required operations on the ExcelSheets.
+ * Performs all the required operations on the ExcelSheets.
  * For any operation that is required on the Excel workbook. Please register the method here.
+ * @author prashant
  */
 public class ExcelsheetController extends Controller {
 

@@ -4,8 +4,8 @@ import java.io.File;
 
 import com.scholastic.framework.Controller;
 /**
+ * This class is a one stop-shop for all the logging related actions.
  * @author prashant
- * @category This class is a one stop-shop for all the logging related actions.
  */
 public class LoggerController extends Controller {
 

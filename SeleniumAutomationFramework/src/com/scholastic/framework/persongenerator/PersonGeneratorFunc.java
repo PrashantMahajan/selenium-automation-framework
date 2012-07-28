@@ -2,7 +2,7 @@ package com.scholastic.framework.persongenerator;
 
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
-public abstract class PersonGeneratorFunc {
+abstract class PersonGeneratorFunc {
 
 	private PersonGeneratorController g_objController;
 	public PersonGeneratorController getController () {

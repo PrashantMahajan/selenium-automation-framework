@@ -3,7 +3,7 @@ package com.scholastic.framework.automation.selenium.html5.dashboard;
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 import com.scholastic.framework.context.ApplicationContext;
 
-public class DashboardTestProductSettings extends AutomationTest {
+class DashboardTestProductSettings extends AutomationTest {
 
 	@Override
 	public void testStart() {

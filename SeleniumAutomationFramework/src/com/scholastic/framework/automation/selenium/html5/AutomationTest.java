@@ -27,8 +27,6 @@ import com.scholastic.framework.excel.ExcelsheetController;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
 /**
- * @author prashant
- * @usage
  * This is the base class for all the Selenium test cases that we wish to write.
  * This framework recommends using this class but doesn't force you to use it.
  * You can and may write your own test case class for your custom needs.
@@ -36,6 +34,7 @@ import com.scholastic.framework.exceptionhandling.ExceptionController;
  * <h1>NOTE:</h1> This class, right now runs a single instance of the Web-Browser only.
  * If you wish to work with multiple instance of the browsers, you can extend this
  * class or can make a new one.
+ * @author prashant
  */
 abstract public class AutomationTest extends TestCase {
 

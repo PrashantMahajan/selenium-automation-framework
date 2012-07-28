@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.scholastic.framework.context.ApplicationContext;
 
-public class LoggerFuncException extends LoggerFunc {
+class LoggerFuncException extends LoggerFunc {
 
 	private Throwable g_exException;
 

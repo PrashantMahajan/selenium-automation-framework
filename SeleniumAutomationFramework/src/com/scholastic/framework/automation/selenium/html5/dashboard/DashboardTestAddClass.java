@@ -2,7 +2,7 @@
 
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 
-public class DashboardTestAddClass extends AutomationTest {
+class DashboardTestAddClass extends AutomationTest {
 
 	
 	@Override

@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.scholastic.framework.context.ApplicationContext;
 
-public class LoggerFuncCaptureScreen extends LoggerFunc {
+class LoggerFuncCaptureScreen extends LoggerFunc {
 
 	public File g_objScreenShot = null;
 	public File getScreen () {

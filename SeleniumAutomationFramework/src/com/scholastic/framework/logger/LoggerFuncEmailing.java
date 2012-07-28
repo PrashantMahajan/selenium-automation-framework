@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMultipart;
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 import com.scholastic.framework.context.ApplicationContext;
 
-public class LoggerFuncEmailing extends LoggerFunc {
+class LoggerFuncEmailing extends LoggerFunc {
 
 	private String g_sFrom = "";
 	private String g_sTo = "";

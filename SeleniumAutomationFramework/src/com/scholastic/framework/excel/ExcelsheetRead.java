@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.scholastic.framework.context.ApplicationContext;
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 
-public class ExcelsheetRead extends ExcelFunc {
+class ExcelsheetRead extends ExcelFunc {
 
 	private Sheet g_Return;
 	private String g_sSheetName;

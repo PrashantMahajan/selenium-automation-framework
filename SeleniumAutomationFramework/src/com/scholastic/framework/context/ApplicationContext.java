@@ -10,9 +10,9 @@ import org.openqa.selenium.WebDriverBackedSelenium;
 
 import com.scholastic.framework.exceptionhandling.ExceptionController;
 /**
- * @author prashant
- * @category This is backbone of the application. There must be a single instance of this class per application thread. Thus you can define the static in this class.
+ * This is backbone of the application. There must be a single instance of this class per application thread. Thus you can define the static in this class.
  * All the properties/configuration etc. must go through this class.
+ * @author prashant
  */
 public class ApplicationContext {
 	private static ApplicationContext g_objAppContext;

@@ -3,8 +3,8 @@ package com.scholastic.framework.persongenerator;
 import com.scholastic.framework.Controller;
 
 /**
+ * The purpose of this class is to provide an API for the auto genertion of the common information that is required to generate a person.
  * @author prashant
- * @category The purpose of this class is to provide an API for the auto genertion of the common information that is required to generate a person.
  */
 public class PersonGeneratorController extends Controller {
 

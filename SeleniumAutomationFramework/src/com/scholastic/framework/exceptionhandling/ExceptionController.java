@@ -4,8 +4,8 @@ import com.scholastic.framework.Controller;
 import com.scholastic.framework.logger.LoggerController;
 
 /**
- * @author prashant
  * One stop-shop for all the exception/test-case failure cases.
+ * @author prashant
  */
 public class ExceptionController extends Controller {
 

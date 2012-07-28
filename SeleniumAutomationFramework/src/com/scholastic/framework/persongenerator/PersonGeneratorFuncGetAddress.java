@@ -1,6 +1,6 @@
 package com.scholastic.framework.persongenerator;
 
-public class PersonGeneratorFuncGetAddress extends PersonGeneratorFunc {
+class PersonGeneratorFuncGetAddress extends PersonGeneratorFunc {
 
 	@Override
 	public void startFunction() {
