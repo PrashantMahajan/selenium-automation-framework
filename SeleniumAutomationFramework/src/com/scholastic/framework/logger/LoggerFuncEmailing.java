@@ -19,6 +19,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 import com.scholastic.framework.context.ApplicationContext;
 
 public class LoggerFuncEmailing extends LoggerFunc {
@@ -153,13 +154,28 @@ public class LoggerFuncEmailing extends LoggerFunc {
 
 	private String extractMessageFromException() {
 		String v_Return = "";
+		int v_iI = 0;
+		int v_iAutomationClassLine = -1;
 		PrintWriter v_objPrintStream;
+		StackTraceElement v_objErrorLine = null;
 		StringWriter v_objStringWriter = null;
+		StackTraceElement[] v_arrStackTraceElement;
 		try {
+			v_arrStackTraceElement = this.g_objException.getStackTrace();
+			for (v_iI = 0; v_iI < v_arrStackTraceElement.length; v_iI++) {
+				v_objErrorLine = v_arrStackTraceElement[v_iI];
+				if (v_objErrorLine.getClassName().equals(AutomationTest.class.getName()) ) {
+					v_iAutomationClassLine = v_iI;
+				} else if (v_iAutomationClassLine > -1) {
+					v_Return = "The test-case : " + v_objErrorLine.getClassName() + " failed at line number : " + v_objErrorLine.getLineNumber();
+					break;
+				}
+			}
+
 			v_objStringWriter = new StringWriter();
 			v_objPrintStream = new PrintWriter(v_objStringWriter);
 			this.g_objException.printStackTrace(v_objPrintStream);
-			v_Return = v_objStringWriter.toString();
+			v_Return += "\n" + v_objStringWriter.toString();
 			
 		} catch (Exception v_exException) {
 			v_exException.printStackTrace();
