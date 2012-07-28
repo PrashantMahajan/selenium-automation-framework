@@ -13,3 +13,22 @@ Karam:
                       product settings
 3. Document
 4. Demo to QA -recording in Selenium.
+
+
+========================================================================================================================================================
+Demo Script:
+1. Self-Initiative - thus no obligation.
+2. Need for Automation.
+3. How developers and QA would work hand-in-hand.
+4. Add/Edit a Student
+5. Show the Error Email.
+6. Show the Auto-Recording.
+7. Show how Auto-Recorded code gets plugged in as a test case.
+8. Discuss the overall phases of the plan
+	a. Automation
+	b. Development
+	c. Build
+	Basically the point is not only to improve the QA but the re-define the way we are doing the development.
+9. Immediate and long-term Financial gains compared to using QTP.
+10. Compare the number of people, earlier working in automation and number of people immediately enabled to work using this framework.
+========================================================================================================================================================
