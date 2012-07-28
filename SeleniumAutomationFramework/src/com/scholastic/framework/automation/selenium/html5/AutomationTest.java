@@ -315,6 +315,11 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return v_Return;
 	}
+	/**
+	 * This method returns the actual instance of the Excel Workbooks' sheet. The sheet then can be used to set/get any value.
+	 * @param prm_sFileName : The name of the Excel file. This file must be present in the classpath.
+	 * @param prm_sSheetName : The name of the sheet in the workbook that you wish to read/write.
+	 */
 	public Sheet command_excel_getSheet (String prm_sFileName, String prm_sSheetName) {
 		Sheet v_Return = null;
 		try {
@@ -325,6 +330,13 @@ abstract public class AutomationTest extends TestCase {
 		return v_Return;
 	}
 
+	/**
+	 * This method returns the actual Control object.
+	 * @param prm_sId : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 */
 	public WebElement command_getControl (String prm_sId) {
 		WebElement v_Return = null;
 		try {
@@ -379,11 +391,18 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return v_Return;
 	}
-	
+	/**
+	 * Returns the active URL of the browser-window being tested.
+	 */
 	public String command_getURL () {
 		return this.g_sURL;
 	}
 	
+	/**
+	 * Logs the user in the application. This method auto waits for 2 seconds after executing the login command.
+	 * @param prm_sUsername: Username
+	 * @param prm_sPassword: Password
+	 */
 	public void command_login (String prm_sUsername, String prm_sPassword) {
 		this.command_openURL(this.g_sURL);
 		this.command_enterText("username", prm_sUsername);
@@ -392,11 +411,20 @@ abstract public class AutomationTest extends TestCase {
 		this.command_waitInSeconds(2);
 	}
 
+	
+	/**
+	 * Logs-out the user from the application. This method auto waits for 2 seconds after executing the logout command.
+	 */
 	public void command_logout () {
 		this.command_clickLink("Log Out");
 		this.command_waitInSeconds(2);
 	}
 
+	/**
+	 * Navigates the current page to the specified URL.
+	 * @param prm_sURL : The URL of the website in the format : http://www.scholastic.com/
+	 * @see command_openURL
+	 */
 	public void command_navigatePage (String prm_sURL) {
 		try {
 			this.command_openURL(prm_sURL);
@@ -405,6 +433,11 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Opens the specified URL in the pre-opened window. If the window is not open, it would one.
+	 * This command would auto-wait for 5 seconds after opening any new URL.
+	 * @param prm_sSite : The URL of the website in the format : http://www.scholastic.com/
+	 */
 	public WebDriver command_openURL (String prm_sSite) {
 		try {
 			if (null == this.g_objWebDriver) {
@@ -418,6 +451,10 @@ abstract public class AutomationTest extends TestCase {
 		return this.g_objWebDriver;
 	}
 
+	/**
+	 * Auto generates random text with the length specified by the user.
+	 * @param prm_iLength : Desired length of the Text
+	 */
 	public String command_randomText (int prm_iLength) {
 		String v_Return = "";
 		if (prm_iLength == 0) {
@@ -435,10 +472,23 @@ abstract public class AutomationTest extends TestCase {
 		return v_Return;
 	}
 
+	/**
+	 * Clicks the Save button on the currently opened Popup window.
+	 */
 	public void command_save () {
 		this.executeJavaScript("$(\"button:contains('Save')\").click()");
 	}
 
+	/**
+	 * Sets the value in the Combobox control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would set the value in the first one.
+	 * @param prm_ComboBoxId : The valid information that you can pass in the parameter is
+	 * <br>1. ID
+	 * <br>2. Name
+	 * <br>3. Label
+	 * 
+	 * @param prm_sOptionId : The value that you wish to set. The value can be both, actual value or the display value.
+	 */
 	public void command_selectComboBox (String prm_ComboBoxId, String prm_sOptionId) {
 		WebElement v_objCombobox;
 		List<WebElement> v_lAllOptions;
@@ -457,6 +507,14 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Sets the value in the Radio control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would set the value in the first one.
+	 * @param prm_sControlName : The valid information that you can pass in the parameter is
+	 * <br>1. Name
+	 * 
+	 * @param prm_sOptionId : The value that you wish to set. The value can be both, actual value or the display value.
+	 */
 	public void command_selectRadioButton (String prm_sControlName, String prm_sOptionId) {
 		List<WebElement> v_lAllOptions;
 		try {
@@ -472,10 +530,18 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
-
+	/**
+	 * Auto-Finds and clicks the tab on the popup screen.
+	 * @param prm_sTabName : The Text on the tab.
+	 */
 	public void command_selectTab (String prm_sTabName) {
 		this.command_clickLink(prm_sTabName);
 	}
+	/**
+	 * Sets the browser window type. If this command is executed while a test case is running,
+	 * the the current browser would be closed and a new window would be opened.
+	 * @param prm_iBrowser : Any of the values from the enum {@link Browsers}
+	 */
 	public void command_setBrowser (Browsers prm_iBrowser) {
 		try {
 			if (null != this.g_objWebDriver) {
@@ -514,13 +580,25 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
+	/**
+	 * Sets the usl that is required to be tested.
+	 * @param prm_sURL : The URL to be tested in the following format : http://www.scholastic.com
+	 */
 	public void command_setURL (String prm_sURL) {
 		this.g_sURL = prm_sURL;
 	}
 
+	/**
+	 * Submits the currently opened popup.
+	 * @param prm_sFormId : The id of the Form that is required to be submitted.
+	 */
 	public void command_submitFrom (String prm_sFormId) {
 		this.command_getControl(prm_sFormId).submit();
 	}
+	/**
+	 * Auto-Generates a random text having the length specified by the user.
+	 * @param prm_iLength : The total length of the Text.
+	 */
 	public String command_uniqueText (int prm_iLength) {
 		String v_Return = "";
 		if (prm_iLength == 0) {
@@ -538,6 +616,9 @@ abstract public class AutomationTest extends TestCase {
 		return v_Return;
 	}
 
+	/**
+	 * Halts the Script-execution for Half-a-second
+	 */
 	public void command_waitForHalfASecond () {
 		try {
 			Thread.sleep(500);
@@ -546,6 +627,10 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Halts the Script-execution for the number of seconds specified.
+	 * @param prm_iSeconds : The number of seconds that you wish the application to wait.
+	 */
 	public void command_waitInSeconds (int prm_iSeconds) {
 		try {
 			Thread.sleep(1000 * prm_iSeconds);
@@ -554,6 +639,11 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Executes the JavaScript and returns the result
+	 * @param prm_sCommand : JavaScript code as a string.
+	 * @return : Any Object that is returned by the browser Javascript.
+	 */
 	public Object executeJavaScript (String prm_sCommand) {
 		Object v_Return = null;
 		JavascriptExecutor v_objJS;
@@ -566,6 +656,9 @@ abstract public class AutomationTest extends TestCase {
 		return v_Return;
 	}
 
+	/**
+	 * The Controller where this Method is being used from. If none is specified then it would return a new instance of {@link AutomationController}
+	 */
 	public Controller getController () {
 		if (null == this.g_objController) {
 			this.g_objController = AutomationController.getInstance();
@@ -573,12 +666,22 @@ abstract public class AutomationTest extends TestCase {
 		return this.g_objController;
 	}
 
+	/**
+	 * Handles the exceptions thrown by the test cases.
+	 * @param prm_exException : Exception caught by the test-case.
+	 */
 	public void handleException (Exception prm_exException) {
 		ExceptionController.getInstance().handleException(prm_exException);
 	}
+	/**
+	 * Set the controller where this function is intended to be registed.
+	 */
 	public void setContoller (Controller prm_objController) {
 		this.g_objController = prm_objController;
 	}
 
+	/**
+	 * The method that must be implemented by all the inheriting classes to run the test-case
+	 */
 	abstract public void testStart();
 }
