@@ -4,7 +4,7 @@ import com.scholastic.framework.automation.selenium.html5.AutomationTest.Browser
 
 import junit.framework.TestCase;
 
-class TeacherDashboardSmokeTest extends TestCase {
+public class TeacherDashboardSmokeTest extends TestCase {
 
 	public void testStart() {
 		this.runFirefox();

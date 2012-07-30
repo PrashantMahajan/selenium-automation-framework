@@ -2,7 +2,7 @@ package com.scholastic.framework.automation.selenium.html5.dashboard;
 
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 
-class DashboardTestLogin extends AutomationTest {
+public class DashboardTestLogin extends AutomationTest {
 
 	private String g_sUsername = "teacher03";
 	private String g_sPassword = "Welcome1";
