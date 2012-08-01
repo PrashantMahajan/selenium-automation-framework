@@ -10,11 +10,10 @@ public class DashboardTestEditStudent extends AutomationTest {
 	@Override
 	public void testStart() {
 		try {
-			this.command_login("teacher03", "Welcome1");
+			this.command_login("MichaelJackson", "abcdefg1ijg");
 			this.makeStudent();
 			this.command_logout();
-			this.command_login("teacher03", "Welcome1");
-			this.editStudent();
+			//this.editStudent();
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
@@ -45,7 +44,7 @@ public class DashboardTestEditStudent extends AutomationTest {
 		this.command_controlSetValue("Username*", this.g_sUsername);
 		this.command_controlSetValue("Password", this.g_sPassword);
 		this.command_controlSetValue("Password Confirmation", this.g_sPassword);
-		this.command_clickCheckbox("FASTT Math test");
+		this.command_clickCheckbox("ce698o2fgh8vsqvvkmouccvb-h910h03");
 		this.command_selectTab("Demographics");
 		this.command_clickCheckbox("Economically Disadvantaged");
 		this.command_clickCheckbox("Gifted and Talented");
