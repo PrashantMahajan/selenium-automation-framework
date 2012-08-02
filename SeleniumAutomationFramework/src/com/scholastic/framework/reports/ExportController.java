@@ -29,8 +29,13 @@ public class ExportController extends Controller {
 		v_fn.startFunction();
 	}
 	/**
+	 * The method exports the desired Report data to the QC server. The configuration of the QC server must be specified in the
+	 * TestCass.Properties file.
 	 */
-	public void exportFilesToGit () {
-
+	public void exportReportDataToGit (String prm_sReportData) {
+		ExportFuncExportDataToGitRepository v_fn;
+		v_fn = new ExportFuncExportDataToGitRepository();
+		v_fn.setReportData(prm_sReportData);
+		v_fn.startFunction();
 	}
 }

@@ -680,6 +680,7 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public void handleException (Exception prm_exException) {
 		ExceptionController.getInstance().handleException(prm_exException);
+		fail();
 	}
 	/**
 	 * Set the controller where this function is intended to be registed.
