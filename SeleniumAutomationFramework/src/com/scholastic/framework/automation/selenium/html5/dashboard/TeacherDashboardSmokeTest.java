@@ -1,122 +1,49 @@
 package com.scholastic.framework.automation.selenium.html5.dashboard;
 
-import com.scholastic.framework.automation.selenium.html5.AutomationTest.Browsers;
+import java.util.LinkedList;
+import java.util.List;
 
-import junit.framework.TestCase;
+import com.scholastic.framework.automation.selenium.html5.AutomationTest;
+import com.scholastic.framework.exceptionhandling.ExceptionController;
 
-public class TeacherDashboardSmokeTest extends TestCase {
+public class TeacherDashboardSmokeTest extends AutomationTest {
 
+	private List<Class<AutomationTest>> g_lAllTests = new LinkedList<Class<AutomationTest>>();
 	public void testStart() {
-		this.runFirefox();
-//		this.runIE8();
-//		this.runSafari();
-	}
+		this.runForAllBrowsers();
 
-	private void runAddAClassTestOnFireFox() {
-		DashboardTestAddClass v_tst;
-		v_tst = new DashboardTestAddClass();
-		v_tst.command_setBrowser(Browsers.FIREFOX);
-		v_tst.testStart();
 	}
+// User can add any browser here.
+	private void runForAllBrowsers() {
+		int v_iI = 0;
+		Browsers[] v_allBrowsers = {Browsers.FIREFOX, Browsers.SAFARI, Browsers.IE8};
+		AutomationTest v_objTest;
 
-	private void runAddAClassTestOnIE() {
-		DashboardTestAddClass v_tst;
-		v_tst = new DashboardTestAddClass();
-		v_tst.command_setBrowser(Browsers.IE8);
-		v_tst.testStart();
+		try {
+			this.attachTestCases();
+			for (v_iI = 0; v_iI < v_allBrowsers.length; v_iI++) {
+				for (Class<AutomationTest> v_objClass : this.g_lAllTests) {
+					v_objTest = v_objClass.newInstance();
+					v_objTest.command_setBrowser(v_allBrowsers[v_iI]);
+					v_objTest.testStart();
+					v_objTest.command_closeBrowserWindow();
+				}
+			}
+		} catch (Exception v_exException) {
+			ExceptionController.getInstance().handleException(v_exException);
+		}
 	}
-
-	private void runAddAClassTestOnSafari() {
-		DashboardTestAddClass v_tst;
-		v_tst = new DashboardTestAddClass();
-		v_tst.command_setBrowser(Browsers.SAFARI);
-		v_tst.testStart();
-		v_tst.command_waitInSeconds(2);
-	}
-
-	private void runAddAStudentTestOnFirefox() {
-		DashboardTestAddStudent v_tst;
-		v_tst = new DashboardTestAddStudent();
-		v_tst.command_setBrowser(Browsers.FIREFOX);
-		v_tst.testStart();
-	}
-
-	private void runAddAStudentTestOnIE() {
-		DashboardTestAddStudent v_tst;
-		v_tst = new DashboardTestAddStudent();
-		v_tst.command_setBrowser(Browsers.IE8);
-		v_tst.testStart();
-	}
-
-	private void runAddAStudentTestOnSafari() {
-		DashboardTestAddStudent v_tst;
-		v_tst = new DashboardTestAddStudent();
-		v_tst.command_setBrowser(Browsers.SAFARI);
-		v_tst.testStart();
-		v_tst.command_waitInSeconds(2);
-	}
-
-	private void runAReportOnFirefox() {
-		DashboardTestReports v_tst;
-		v_tst = new DashboardTestReports();
-		v_tst.command_setBrowser(Browsers.FIREFOX);
-		v_tst.testStart();
-	}
-
-	private void runAReportOnIE() {
-		DashboardTestReports v_tst;
-		v_tst = new DashboardTestReports();
-		v_tst.command_setBrowser(Browsers.IE8);
-		v_tst.testStart();
-	}
-
-	private void runAReportOnSafari() {
-		DashboardTestReports v_tst;
-		v_tst = new DashboardTestReports();
-		v_tst.command_setBrowser(Browsers.SAFARI);
-		v_tst.testStart();
-	}
-	private void testSearchStudentLinkFirefox() {
-		DashboardTestSearchStudent v_tst;
-		v_tst = new DashboardTestSearchStudent();
-		v_tst.command_setBrowser(Browsers.FIREFOX);
-		v_tst.testStart();
-	}
-
-	private void testSearchStudentlinkIE() {
-		DashboardTestSearchStudent v_tst;
-		v_tst = new DashboardTestSearchStudent();
-		v_tst.command_setBrowser(Browsers.IE8);
-		v_tst.testStart();
-	}
-
-	private void testSearchStudentLinkSafari() {
-		DashboardTestSearchStudent v_tst;
-		v_tst = new DashboardTestSearchStudent();
-		v_tst.command_setBrowser(Browsers.SAFARI);
-		v_tst.testStart();
-	}
-	private void runFirefox() {
-		this.runAddAStudentTestOnFirefox();
-		this.runAddAClassTestOnFireFox();
-		this.runAReportOnFirefox();
-		this.testSearchStudentLinkFirefox();
-	
-	}
-
-	private void runIE8() {
-		this.runAddAStudentTestOnIE();
-		this.runAddAClassTestOnIE();
-		this.runAReportOnIE();
-		this.testSearchStudentlinkIE();
-	}
-
-	private void runSafari() {
-		this.runAddAClassTestOnSafari();
-		this.runAddAStudentTestOnSafari();
-		this.runAReportOnSafari();
-		this.testSearchStudentLinkSafari();
+//List all your Testcases here.
+	private void attachTestCases() {
+		this.g_lAllTests.add((Class<AutomationTest>)(Object)DashboardTestLogin.class);
+		this.g_lAllTests.add((Class<AutomationTest>)(Object)DashboardTestProductSettings.class);
+		this.g_lAllTests.add((Class<AutomationTest>)(Object)DashboardTestSearchStudent.class);
+		this.g_lAllTests.add((Class<AutomationTest>)(Object)DashboardTestAddStudent.class);
+		this.g_lAllTests.add((Class<AutomationTest>)(Object)DashboardTestAddClass.class);
+		this.g_lAllTests.add((Class<AutomationTest>)(Object)DashboardTestReports.class);
 		
 	}
+
 	
+
 }
