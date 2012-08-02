@@ -1,6 +1,8 @@
 package com.scholastic.framework.context;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -9,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
 
 import com.scholastic.framework.exceptionhandling.ExceptionController;
+import com.scholastic.framework.exceptionhandling.IExceptionEventListener;
 /**
  * This is backbone of the application. There must be a single instance of this class per application thread. Thus you can define all the statics in this class.
  * All the properties/configuration etc. must go through this class.
@@ -22,17 +25,26 @@ public class ApplicationContext {
 	public static ApplicationContext getInstance () {
 		if (null == ApplicationContext.g_objAppContext) {
 			ApplicationContext.g_objAppContext = new ApplicationContext();
-			
 		}
 		return ApplicationContext.g_objAppContext;
 	}
 	private Properties g_objProperties = null;
-	private Map<String, Workbook> g_hWorkbook = new HashMap<String, Workbook>();
 	private WebDriver g_objWebDriver;
 	private WebDriverBackedSelenium g_objSelenium;
+	private Map<String, Workbook> g_hWorkbook = new HashMap<String, Workbook>();
+	private List<IExceptionEventListener> g_lAllExceptionEventListeners = new LinkedList<IExceptionEventListener>();
 
 	private ApplicationContext () {
 		this.init();
+	}
+
+	/**
+	 * Adds a new Event Handler to exception
+	 */
+	public void addExceptionEventListeners(IExceptionEventListener prm_objExceptionEventListener) {
+		if (null != prm_objExceptionEventListener) {
+			this.g_lAllExceptionEventListeners.add(prm_objExceptionEventListener);
+		}
 	}
 	
 	/**
@@ -43,10 +55,17 @@ public class ApplicationContext {
 	public void addWorkbook (String prm_sFileName, Workbook prm_objWorkbook) {
 		this.g_hWorkbook.put(prm_sFileName, prm_objWorkbook);
 	}
-
+	
+	/**
+	 * Returns a list of all the registered Exception Event listeners
+	 */
+	public List<IExceptionEventListener> getExceptionEventListeners() {
+		return this.g_lAllExceptionEventListeners;
+	}
+	
 	/**
 	 * Gets the value of the property as specified in the "TestCases.properties" file.
-	 * @param : Name of the property menthioned in the properties file.
+	 * @param : Name of the property mentioned in the properties file.
 	 */
 	public String getProperty (String prm_sPropertyName) {
 		return (String) this.g_objProperties.get(prm_sPropertyName);
@@ -58,14 +77,12 @@ public class ApplicationContext {
 	public WebDriverBackedSelenium getSelenium () {
 		return this.g_objSelenium;
 	}
-	
 	/**
 	 * Returns the active instance of the WebDriver object.
 	 */
 	public WebDriver getWebDriver () {
 		return this.g_objWebDriver;
 	}
-	
 	/**
 	 * Gets the instance of the workbook based on the File name
 	 * @param prm_sFileName : The name of the Excel file.
@@ -91,7 +108,7 @@ public class ApplicationContext {
 	public void setWebDriver (WebDriver prm_objWebDriver) {
 		this.g_objWebDriver = prm_objWebDriver;
 	}
-	
+
 	private void init() {
 		this.readProperties();
 	}
@@ -104,5 +121,5 @@ public class ApplicationContext {
 			ExceptionController.getInstance().handleException(v_exException);
 		}
 	}
-	
+
 }
