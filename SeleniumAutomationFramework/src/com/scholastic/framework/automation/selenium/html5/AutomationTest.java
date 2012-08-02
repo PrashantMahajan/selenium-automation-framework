@@ -126,7 +126,7 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public void command_clickLink (String prm_sLinkText) {
 		this.command_getControl(prm_sLinkText).click();
-		this.command_waitInSeconds(1);
+		this.command_waitInSeconds(2);
 	}
 
 	/**
@@ -134,6 +134,13 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public void command_close () {
 		this.command_clickLink("close");
+	}
+	
+	/**
+	 * This command is going to close the current browser window.
+	 */
+	public void command_closeBrowserWindow () {
+		this.g_objWebDriver.close();
 	}
 
 	/**
