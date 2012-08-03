@@ -746,3 +746,4 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	abstract public void testStart();
 }
+
