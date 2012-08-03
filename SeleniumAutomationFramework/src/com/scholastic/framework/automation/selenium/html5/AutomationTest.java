@@ -1,4 +1,3 @@
-
 package com.scholastic.framework.automation.selenium.html5;
 
 import java.util.Iterator;
@@ -52,7 +51,10 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public static enum Browsers {FIREFOX, IE8, IE9, CHROME, SAFARI, IPHONE, ANDROID};
 
+	private long g_iExecutionTime = 0;
 	private String g_sURL = "";
+	private String g_sTestCaseName;
+	private String g_sTestCaseDescription = "";
 	private ApplicationContext g_objContext = ApplicationContext.getInstance();
 	private Controller g_objController;
 	private WebDriver g_objWebDriver;
@@ -64,6 +66,7 @@ abstract public class AutomationTest extends TestCase {
 			if (null == this.g_sURL || "".equals(this.g_sURL)) {
 				System.err.println("You may wish to set the URL in the TestCases.properties file.");
 			}
+			this.command_setTestCaseDescription(this.command_setTestCaseName(this.getClass().getSimpleName()));
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
@@ -407,12 +410,27 @@ abstract public class AutomationTest extends TestCase {
 		return v_Return;
 	}
 	/**
+	 * Returns the Description about the Test Case.
+	 */
+	public String command_getTestCaseDescription() {
+		return this.g_sTestCaseDescription;
+	}
+	
+	/**
+	 * Returns the Name of the Test Case
+	 */
+	public String command_getTestCaseName() {
+		return g_sTestCaseName;
+	}
+
+	
+	/**
 	 * Returns the active URL of the browser-window being tested.
 	 */
 	public String command_getURL () {
 		return this.g_sURL;
 	}
-	
+
 	/**
 	 * Logs the user in the application. This method auto waits for 2 seconds after executing the login command.
 	 * @param prm_sUsername: Username
@@ -426,7 +444,6 @@ abstract public class AutomationTest extends TestCase {
 		this.command_waitInSeconds(2);
 	}
 
-	
 	/**
 	 * Logs-out the user from the application. This method auto waits for 2 seconds after executing the logout command.
 	 */
@@ -493,7 +510,6 @@ abstract public class AutomationTest extends TestCase {
 	public void command_save () {
 		this.executeJavaScript("$(\"button:contains('Save')\").click()");
 	}
-
 	/**
 	 * Sets the value in the Combobox control. In-case of multiple controls on the screen having the same id/name/label, this method
 	 * would set the value in the first one.
@@ -521,7 +537,6 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
-
 	/**
 	 * Sets the value in the Radio control. In-case of multiple controls on the screen having the same id/name/label, this method
 	 * would set the value in the first one.
@@ -552,6 +567,7 @@ abstract public class AutomationTest extends TestCase {
 	public void command_selectTab (String prm_sTabName) {
 		this.command_clickLink(prm_sTabName);
 	}
+
 	/**
 	 * Sets the browser window type. If this command is executed while a test case is running,
 	 * the the current browser would be closed and a new window would be opened.
@@ -596,6 +612,20 @@ abstract public class AutomationTest extends TestCase {
 		}
 	}
 	/**
+	 * Sets the Description of the Test Case.
+	 */
+	public void command_setTestCaseDescription(String g_sTestCaseDescription) {
+		this.g_sTestCaseDescription = g_sTestCaseDescription;
+	}
+
+	/**
+	 * Sets the Name of the Test Case
+	 */
+	public String command_setTestCaseName(String g_sTestCaseName) {
+		return this.g_sTestCaseName;
+	}
+
+	/**
 	 * Sets the usl that is required to be tested.
 	 * @param prm_sURL : The URL to be tested in the following format : http://www.scholastic.com
 	 */
@@ -610,6 +640,7 @@ abstract public class AutomationTest extends TestCase {
 	public void command_submitFrom (String prm_sFormId) {
 		this.command_getControl(prm_sFormId).submit();
 	}
+
 	/**
 	 * Auto-Generates a random text having the length specified by the user.
 	 * @param prm_iLength : The total length of the Text.
@@ -641,7 +672,6 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
-
 	/**
 	 * Halts the Script-execution for the number of seconds specified.
 	 * @param prm_iSeconds : The number of seconds that you wish the application to wait.
@@ -653,7 +683,7 @@ abstract public class AutomationTest extends TestCase {
 			this.handleException(v_exException);
 		}
 	}
-
+	
 	/**
 	 * Executes the JavaScript and returns the result
 	 * @param prm_sCommand : JavaScript code as a string.
@@ -670,7 +700,6 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return v_Return;
 	}
-
 	/**
 	 * The Controller where this Method is being used from. If none is specified then it would return a new instance of {@link AutomationController}
 	 */
@@ -682,6 +711,13 @@ abstract public class AutomationTest extends TestCase {
 	}
 
 	/**
+	 * Returns the total Execution time.
+	 */
+	public long getExecutionTime () {
+		return this.g_iExecutionTime;
+	}
+
+	/**
 	 * Handles the exceptions thrown by the test cases.
 	 * @param prm_exException : Exception caught by the test-case.
 	 */
@@ -689,11 +725,20 @@ abstract public class AutomationTest extends TestCase {
 		ExceptionController.getInstance().handleException(prm_exException);
 		fail();
 	}
+
 	/**
-	 * Set the controller where this function is intended to be registed.
+	 * Set the controller where this function is intended to be registered.
 	 */
 	public void setContoller (Controller prm_objController) {
 		this.g_objController = prm_objController;
+	}
+
+	/**
+	 * Sets the total execution time of the test.
+	 * @param prm_iSeconds The execution time in seconds.
+	 */
+	public void setExecutionTime (long prm_iSeconds) {
+		this.g_iExecutionTime = prm_iSeconds;
 	}
 
 	/**

@@ -1,13 +1,16 @@
 package com.scholastic.framework.reports;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
 import com.scholastic.framework.automation.selenium.html5.AutomationTest;
 import com.scholastic.framework.context.ApplicationContext;
 
+/**
+ * This function call is responsible for exporting the Report data to QC.
+ * @author prashant
+ */
 public class ExportFuncExportDataToQC extends ExportFunc {
 
 	private StringBuilder g_sbReport = new StringBuilder();
@@ -42,8 +45,12 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 
 	private void setInitalVariables() {
 		Calendar v_objCalendar;
-		v_objCalendar = new GregorianCalendar();
-		this.g_sTodaysDate = v_objCalendar.get(Calendar.MONTH) + "/" + v_objCalendar.get(Calendar.DATE) + "/" + v_objCalendar.get(Calendar.YEAR);
+		try {
+			v_objCalendar = new GregorianCalendar();
+			this.g_sTodaysDate = v_objCalendar.get(Calendar.MONTH) + "/" + v_objCalendar.get(Calendar.DATE) + "/" + v_objCalendar.get(Calendar.YEAR);
+		} catch (Exception v_exException) {
+			v_exException.printStackTrace();
+		}
 	}
 
 	private void createSteps() {
@@ -65,20 +72,7 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 				this.createStep(v_objTest, ++v_iI);
 			}
 				
-			this.g_sbReport.append("\n			<step id=\"1\">" +
-				"\n				<status>Pass</status>" +
-				"\n				<execution_date>08/01/2012</execution_date>" +
-				"\n				<execution_time>20</execution_time>" +
-				"\n				<step_description>Add A Student On Firefox</step_description>" +
-				"\n				<Content>This tests the creation of a Student on Firefox</Content>" +
-				"\n			</step>" +
-				"\n			<step id=\"1\">" +
-				"\n				<status>Fail</status>" +
-				"\n				<execution_date>08/01/2012</execution_date>" +
-				"\n				<execution_time>30</execution_time>" +
-				"\n				<step_description>Add A Student On Safari</step_description>" +
-				"\n				<Content>This tests the creation of a Student on IE</Content>" +
-				"\n			</step>" +
+			this.g_sbReport.append(
 				"\n		</step-sequence>" +
 				"\n	</run>" +
 				"\n</run-sequence>"
@@ -91,18 +85,29 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 	private void createStep(AutomationTest v_objTest, int prm_iStepIndex) {
 		this.g_sbReport.append(
 			"\n			<step id=\"" + prm_iStepIndex + "\">" +
-			"\n				<status>" + this.doesTheTestFailed(v_objTest) + "</status>" +
+			"\n				<status>" + this.getTestStatus(v_objTest) + "</status>" +
 			"\n				<execution_date>" + this.g_sTodaysDate + "</execution_date>" +
-			"\n				<execution_time>30</execution_time>" +
-			"\n				<step_description>Add A Student On Safari</step_description>" +
-			"\n				<Content>This tests the creation of a Student on IE</Content>" +
+			"\n				<execution_time>" + v_objTest.getExecutionTime() + "</execution_time>" +
+			"\n				<step_description>" + v_objTest.getName() + "</step_description>" +
+			"\n				<Content>" + v_objTest.getName() + "</Content>" +
 			"\n			</step>"
 		);
 	}
 
-	private String doesTheTestFailed(AutomationTest v_objTest) {
-		// TODO Auto-generated method stub
-		return null;
+	private String getTestStatus(AutomationTest prm_objTest) {
+		String v_Return = "Pass";
+		String v_sClassname;
+		try {
+			v_sClassname = prm_objTest.getClass().getName();
+			for (AutomationTest v_objTest : this.g_lAllTests) {
+				if (v_objTest.getClass().getName().equals(v_sClassname)) {
+					v_Return = "Fail";
+				}
+			}
+		} catch (Exception v_exException) {
+			v_exException.printStackTrace();
+		}
+		return v_Return;
 	}
 
 	private void exportReportFile() {

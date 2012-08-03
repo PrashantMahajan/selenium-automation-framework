@@ -34,7 +34,7 @@ public class ExportFuncExportDataToGitRepository extends ExportFunc {
 
 	private void commitReport () {
 		try {
-			System.out.println("Please nvigate to :'" + this.g_sReportDirectory + this.g_sReportFileName + "' to review the Test Case Report.");
+			System.out.println("Please navigate to :'" + this.g_sReportDirectory + this.g_sReportFileName + "' to review the Test Case Report.");
 		} catch (Exception v_exException) {
 			v_exException.printStackTrace();
 		}

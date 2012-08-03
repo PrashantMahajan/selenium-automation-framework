@@ -6,6 +6,7 @@ public class TeacherDashboardSmokeTest extends AutomationTestSuite {
 
 	@Override
 	protected void addTestsToSuite() {
+		this.command_setTestSuiteName("Dashboard Smoke Test");
 		this.addTest(new DashboardTestLogin());
 		this.addTest(new DashboardTestProductSettings());
 		this.addTest(new DashboardTestSearchStudent());
