@@ -1,8 +1,8 @@
-com.scholastic.framework
-com.scholastic.framework.automation.selenium.html5
-com.scholastic.framework.automation.selenium.html5.dashboard
-com.scholastic.framework.context
-com.scholastic.framework.excel
-com.scholastic.framework.exceptionhandling
-com.scholastic.framework.logger
-com.scholastic.framework.persongenerator
+com.testit.framework
+com.testit.framework.automation.selenium.html5
+com.testit.framework.context
+com.testit.framework.excel
+com.testit.framework.exceptionhandling
+com.testit.framework.logger
+com.testit.framework.persongenerator
+com.testit.framework.reports
