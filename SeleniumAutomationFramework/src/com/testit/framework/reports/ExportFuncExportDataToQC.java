@@ -65,6 +65,8 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 				"\n		<status>" + (this.g_lAllFailedTests.size() > 0? "Failed" : "Pass") + "</status>" +
 				"\n		<comments></comments>" +
 				"\n		<execution_date>" + this.g_sTodaysDate + "</execution_date>" +
+				"\n		<java_version>" + this.getJavaVersion() + "</java_version>" +
+				"\n		<os_version>" + this.getOSVersion() + "</os_version>" +
 				"\n		<step-sequence>"
 			);
 				
@@ -89,6 +91,7 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 			"\n				<execution_date>" + this.g_sTodaysDate + "</execution_date>" +
 			"\n				<execution_time>" + v_objTest.getExecutionTime() + "</execution_time>" +
 			"\n				<step_description>" + v_objTest.getName() + "</step_description>" +
+			"\n				<browser_info>" + v_objTest.command_getBrowserName() + "</browser_info>" +
 			"\n				<Content>" + v_objTest.getName() + "</Content>" +
 			"\n			</step>"
 		);
@@ -124,5 +127,24 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 		} catch (Exception v_exException) {
 			v_exException.printStackTrace();
 		}
+	}
+	
+	private String getJavaVersion () {
+		String v_Return = null;
+		try {
+			v_Return = System.getProperty("java.version");
+		} catch (Exception v_exException) {
+			v_exException.printStackTrace();
+		}
+		return v_Return;
+	}
+	private String getOSVersion () {
+		String v_Return = null;
+		try {
+			v_Return = System.getProperty("os.version");
+		} catch (Exception v_exException) {
+			v_exException.printStackTrace();
+		}
+		return v_Return;
 	}
 }

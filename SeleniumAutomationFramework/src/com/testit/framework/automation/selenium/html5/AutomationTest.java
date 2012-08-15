@@ -347,6 +347,19 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return v_Return;
 	}
+	
+	/**
+	 * Returns the name of the browser
+	 */
+	public String command_getBrowserName () {
+		String v_Return = null;
+		try {
+			v_Return = this.selenium.getEval("navigator.userAgent");
+		} catch (Exception v_exException) {
+			this.handleException(v_exException);
+		}
+		return v_Return;
+	}
 
 	/**
 	 * This method returns the actual Control object.
