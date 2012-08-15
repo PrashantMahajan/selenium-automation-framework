@@ -53,7 +53,7 @@ abstract public class AutomationTest extends TestCase {
 
 	private long g_iExecutionTime = 0;
 	private String g_sURL = "";
-	private String g_sTestCaseName;
+	private String g_sTestCaseName = this.getClass().getSimpleName();
 	private String g_sTestCaseDescription = "";
 	private ApplicationContext g_objContext = ApplicationContext.getInstance();
 	private Controller g_objController;

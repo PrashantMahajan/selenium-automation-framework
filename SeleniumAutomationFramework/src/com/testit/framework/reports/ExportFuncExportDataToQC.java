@@ -90,9 +90,9 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 			"\n				<status>" + this.getTestStatus(v_objTest) + "</status>" +
 			"\n				<execution_date>" + this.g_sTodaysDate + "</execution_date>" +
 			"\n				<execution_time>" + v_objTest.getExecutionTime() + "</execution_time>" +
-			"\n				<step_description>" + v_objTest.getName() + "</step_description>" +
+			"\n				<step_description>" + v_objTest.command_getTestCaseName() + "</step_description>" +
 			"\n				<browser_info>" + v_objTest.command_getBrowserName() + "</browser_info>" +
-			"\n				<Content>" + v_objTest.getName() + "</Content>" +
+			"\n				<Content>" + v_objTest.command_getTestCaseName() + "</Content>" +
 			"\n			</step>"
 		);
 	}
