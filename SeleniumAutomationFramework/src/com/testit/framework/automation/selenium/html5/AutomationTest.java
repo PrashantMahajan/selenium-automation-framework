@@ -1,5 +1,6 @@
 package com.testit.framework.automation.selenium.html5;
 
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +18,8 @@ import org.openqa.selenium.android.AndroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.iphone.IPhoneDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.testit.framework.Controller;
@@ -58,6 +60,7 @@ abstract public class AutomationTest extends TestCase {
 	private ApplicationContext g_objContext = ApplicationContext.getInstance();
 	private Controller g_objController;
 	private WebDriver g_objWebDriver;
+	private boolean g_bPass = true;
 	protected WebDriverBackedSelenium selenium;
 
 	public AutomationTest () {
@@ -156,7 +159,7 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public String command_controlGetValue (String prm_sControlId) {
 		String v_Return = null;
-		v_Return = this.command_getControl(prm_sControlId).getText();
+		v_Return = this.command_getControl(prm_sControlId).getAttribute("value");
 		return v_Return;
 	}
 
@@ -518,6 +521,29 @@ abstract public class AutomationTest extends TestCase {
 	}
 
 	/**
+	 * Auto generates random text with the length specified by the user.
+	 * @param prm_iLength : Desired length of the Text
+	 */
+	public String command_randomAlphaText (int prm_iLength) {
+		String v_Return = "";
+		if (prm_iLength == 0) {
+			return v_Return;
+		} else {
+			v_Return = UUID.randomUUID().toString().replace("-", "");
+			v_Return = v_Return.replaceAll("[0-9]+", "");
+			while (v_Return.length() != prm_iLength) {
+				if (v_Return.length() > prm_iLength) {
+					v_Return = v_Return.substring(0, prm_iLength);
+				} else {
+					v_Return += UUID.randomUUID().toString().replace("-", "");
+					v_Return = v_Return.replaceAll("[0-9]+", "");
+				}
+			}
+		}
+		return v_Return;
+	}
+	
+	/**
 	 * Clicks the Save button on the currently opened Popup window.
 	 */
 	public void command_save () {
@@ -608,7 +634,8 @@ abstract public class AutomationTest extends TestCase {
 				break;
 			case IPHONE:
 				try {
-					this.g_objWebDriver = new IPhoneDriver();
+					this.g_objWebDriver = new RemoteWebDriver(new URL("http://10.1.44.151:3001/wd/hub/"), DesiredCapabilities.iphone());
+					//this.g_objWebDriver = new IPhoneDriver();
 				} catch (Exception v_exException) {
 					this.handleException(v_exException);
 				}
@@ -652,6 +679,23 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public void command_submitFrom (String prm_sFormId) {
 		this.command_getControl(prm_sFormId).submit();
+	}
+	
+	/**
+	 * Tests the Values entered and Sets the Pass/Fail Status
+	 */
+	public void command_testValues (String prm_sValue1, String prm_sValue2) {
+		if (null == prm_sValue1) {
+			if (null == prm_sValue2) {
+				this.g_bPass = true;
+			}
+			this.g_bPass = false;
+		} else if (null == prm_sValue2) {
+			this.g_bPass = false;
+		} else {
+			this.g_bPass = prm_sValue1.equals(prm_sValue2);
+		}
+		assertTrue(this.g_bPass);
 	}
 
 	/**
