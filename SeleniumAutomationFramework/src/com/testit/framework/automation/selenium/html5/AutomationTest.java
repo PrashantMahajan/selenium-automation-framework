@@ -336,6 +336,19 @@ abstract public class AutomationTest extends TestCase {
 		}
 		return v_Return;
 	}
+	
+	/**
+	 * Fetches the value if the control. In-case of multiple controls on the screen having the same id/name/label, this method
+	 * would return the value of the first one.
+	 * @param prm_sControlId : The valid information that you can pass in the parameter is:
+	 * <br>1. ID
+	 */
+	public String command_getControlValue (String prm_sControlId) {
+		String v_Return = null;
+		v_Return = this.selenium.getValue("id=" + prm_sControlId);
+		return v_Return;
+	}
+	
 	/**
 	 * This method returns the actual instance of the Excel Workbooks' sheet. The sheet then can be used to set/get any value.
 	 * @param prm_sFileName : The name of the Excel file. This file must be present in the classpath.
@@ -683,7 +696,9 @@ abstract public class AutomationTest extends TestCase {
 	
 	/**
 	 * Tests the Values entered and Sets the Pass/Fail Status
+	 * @deprecated Please use command_validateValues
 	 */
+	@Deprecated
 	public void command_testValues (String prm_sValue1, String prm_sValue2) {
 		if (null == prm_sValue1) {
 			if (null == prm_sValue2) {
@@ -717,6 +732,33 @@ abstract public class AutomationTest extends TestCase {
 			}
 		}
 		return v_Return;
+	}
+	
+	/**
+	 * Validates the Control Value with the test value. If the control value doesn't match then the test case is failed.
+	 * The validation is case-sensitive.
+	 * Please pass the exact Id of the control here.
+	 */
+	public void command_validateControlValue (String prm_sControlId, String prm_sValue) {
+		String v_sValue;
+		v_sValue = this.command_getControlValue(prm_sControlId);
+		if (prm_sValue.equals(v_sValue)) {
+		} else {
+			this.g_bPass = false;
+		}
+		assertTrue(this.g_bPass);
+	}
+
+	/**
+	 * Validates the First Value with the Second value. If the values don't match then the test case is failed.
+	 * The validation is case-sensitive.
+	 */
+	public void command_validateValues (String prm_sValue1, String prm_sValue2) {
+		if (("" + prm_sValue1).equals("" + prm_sValue2)) {
+		} else {
+			this.g_bPass = false;
+		}
+		assertTrue(this.g_bPass);
 	}
 
 	/**
