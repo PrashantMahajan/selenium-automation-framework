@@ -53,6 +53,7 @@ abstract public class AutomationTest extends TestCase {
 	 */
 	public static enum Browsers {FIREFOX, IE8, IE9, CHROME, SAFARI, IPHONE, ANDROID};
 
+	private boolean g_bPass = true;
 	private long g_iExecutionTime = 0;
 	private String g_sURL = "";
 	private String g_sTestCaseName = this.getClass().getSimpleName();
@@ -60,7 +61,6 @@ abstract public class AutomationTest extends TestCase {
 	private ApplicationContext g_objContext = ApplicationContext.getInstance();
 	private Controller g_objController;
 	private WebDriver g_objWebDriver;
-	private boolean g_bPass = true;
 	protected WebDriverBackedSelenium selenium;
 
 	public AutomationTest () {
@@ -449,10 +449,16 @@ abstract public class AutomationTest extends TestCase {
 	 * Returns the Name of the Test Case
 	 */
 	public String command_getTestCaseName() {
-		return g_sTestCaseName;
+		return this.g_sTestCaseName;
+	}
+	
+	/**
+	 * Returns the status of the Test-Case. Basically Pass/Fail.
+	 */
+	public boolean command_getTestCaseStatus () {
+		return this.g_bPass;
 	}
 
-	
 	/**
 	 * Returns the active URL of the browser-window being tested.
 	 */

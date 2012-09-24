@@ -105,6 +105,8 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 			for (AutomationTest v_objTest : this.g_lAllTests) {
 				if (v_objTest.getClass().getName().equals(v_sClassname)) {
 					v_Return = "Fail";
+				} else if (false == v_objTest.command_getTestCaseStatus()) {
+					v_Return = "Fail";
 				}
 			}
 		} catch (Exception v_exException) {
