@@ -102,7 +102,7 @@ public class ExportFuncExportDataToQC extends ExportFunc {
 		String v_sClassname;
 		try {
 			v_sClassname = prm_objTest.getClass().getName();
-			for (AutomationTest v_objTest : this.g_lAllTests) {
+			for (AutomationTest v_objTest : this.g_lAllFailedTests) {
 				if (v_objTest.getClass().getName().equals(v_sClassname)) {
 					v_Return = "Fail";
 				} else if (false == v_objTest.command_getTestCaseStatus()) {

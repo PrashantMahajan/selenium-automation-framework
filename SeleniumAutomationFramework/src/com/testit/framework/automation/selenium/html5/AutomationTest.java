@@ -18,6 +18,7 @@ import org.openqa.selenium.android.AndroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.iphone.IPhoneDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -370,7 +371,21 @@ abstract public class AutomationTest extends TestCase {
 	public String command_getBrowserName () {
 		String v_Return = null;
 		try {
-			v_Return = this.selenium.getEval("navigator.userAgent");
+			if (this.g_objWebDriver instanceof FirefoxDriver) {
+				v_Return = "Firefox";
+			} else if (this.g_objWebDriver instanceof InternetExplorerDriver) {
+				v_Return = "IE";
+			} else if (this.g_objWebDriver instanceof ChromeDriver) {
+				v_Return = "Chrome";
+			} else if (this.g_objWebDriver instanceof SafariDriver) {
+				v_Return = "Safari";
+			} else if (this.g_objWebDriver instanceof AndroidDriver) {
+				v_Return = "Android";
+			} else if (this.g_objWebDriver instanceof IPhoneDriver) {
+				v_Return = "IPhone";
+			} else if (this.g_objWebDriver instanceof RemoteWebDriver) {
+				v_Return = "IPhone";
+			}
 		} catch (Exception v_exException) {
 			this.handleException(v_exException);
 		}
